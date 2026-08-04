@@ -37,11 +37,11 @@ the value of the tool.
 | Qwen | Qwen3.6-27B, Qwen3.6-35B-A3B, Qwen3.5-397B-A17B, Qwen3.5-122B-A10B, Qwen3-235B-A22B, Qwen3-Coder-480B-A35B, 32B, 30B-A3B, 14B, 8B, 4B |
 | MiniMax | M3, M2.7, M2.5, M2.1, M2, M1-80k, Text-01 |
 
-**21 accelerators** across five classes:
+**25 accelerators** across five classes:
 
 - **NVIDIA DC** — H100 SXM/PCIe, H200, B200, GB200, A100, L40S
 - **AMD Instinct** — MI300X 192GB, MI325X 256GB, MI355X 288GB
-- **Consumer** — RTX 5090, RTX PRO 6000 Blackwell 96GB, RTX 6000 Ada
+- **Consumer** — RTX 5090, RTX PRO 6000 Blackwell 96GB, RTX 6000 Ada, RTX 4090, RTX 4070 Ti SUPER, RTX 4060 Ti, RTX 3090
 - **Chinese** — Ascend 910B / 910C, Cambricon MLU590, Biren BR104, Moore Threads S5000, Hygon DCU Z100
 - **CPU / unified memory** — Mac Studio M3 Ultra 512GB, EPYC Genoa + DDR5
 

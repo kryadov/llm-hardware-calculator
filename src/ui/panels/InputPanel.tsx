@@ -340,6 +340,11 @@ export function InputPanel({ state, onChange, className }: InputPanelProps): Rea
               ))}
             </div>
             <p className={hintClass}>{t.input.vendors.hint}</p>
+            {state.vendors.includes('cpu-apple') && (
+              <p className="mt-2 rounded-md bg-amber-50 px-2 py-1.5 text-[11px] leading-relaxed text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
+                {t.input.vendors.cpuAppleHint}
+              </p>
+            )}
           </fieldset>
         )}
       </section>

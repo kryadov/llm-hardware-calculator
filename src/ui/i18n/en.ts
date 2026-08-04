@@ -91,6 +91,7 @@ const en = {
       section: 'Hardware',
       label: 'Vendors',
       hint: 'Narrow the search. Unchecking every vendor leaves nothing to rank.',
+      cpuAppleHint: 'CPU / Apple silicon is viable for batch workloads. For chat, TTFT will likely exceed the SLA — relax it in Advanced → SLA TTFT (seconds), or switch the load profile to Batch.',
     },
     costMode: {
       section: 'Cost',

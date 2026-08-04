@@ -547,7 +547,7 @@ function Results({
           label={fill(t.rejection.titleCount, {
             count: formatPoint(outcome.rejections.length, ''),
           })}
-          defaultOpen={top === undefined && !noVendors}
+          defaultOpen={true}
         >
           <RejectedTable rejections={outcome.rejections} accelerators={ACCELERATORS} />
         </Disclosure>
