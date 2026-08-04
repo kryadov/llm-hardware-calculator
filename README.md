@@ -27,15 +27,15 @@ the value of the tool.
 
 ## Coverage
 
-**23 models**, each with hyperparameters read from the upstream `config.json`, not from memory:
+**41 models**, each with hyperparameters read from the upstream `config.json`, not from memory:
 
 | Family | Models |
 |---|---|
-| Kimi | K2-Instruct, K2-Thinking |
-| GLM | 4.6, 4.5, 4.5-Air, 4-32B-0414, 4-9B-0414 |
-| DeepSeek | V3.2-Exp, V3.1, V3-0324, R1, R1-Distill-Qwen-32B, R1-Distill-Llama-8B |
-| Qwen | Qwen3-235B-A22B, Qwen3-Coder-480B-A35B, 32B, 30B-A3B, 14B, 8B, 4B |
-| MiniMax | M2, M1-80k, Text-01 |
+| Kimi | K3, K2.5, K2.6, K2.7 Code, K2-Instruct, K2-Thinking |
+| GLM | 5.2, 5.1, 4.7-Flash, 4.6, 4.5, 4.5-Air, 4-32B-0414, 4-9B-0414 |
+| DeepSeek | V4-Pro, V4-Flash, V4-Flash-0731, V3.2-Exp, V3.1, V3-0324, R1, R1-Distill-Qwen-32B, R1-Distill-Llama-8B |
+| Qwen | Qwen3.6-27B, Qwen3.6-35B-A3B, Qwen3.5-397B-A17B, Qwen3.5-122B-A10B, Qwen3-235B-A22B, Qwen3-Coder-480B-A35B, 32B, 30B-A3B, 14B, 8B, 4B |
+| MiniMax | M3, M2.7, M2.5, M2.1, M2, M1-80k, Text-01 |
 
 **21 accelerators** across five classes:
 

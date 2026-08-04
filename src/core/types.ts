@@ -38,8 +38,16 @@ export interface HybridAttention {
   kvHeads: number
   headDim: number
   fullAttentionLayers: number
+  /** Attention used by the full-attention layers; `'gqa'` is the default for
+   * backward compatibility (MiniMax M1). `'mla'` covers Kimi K3-style hybrids
+   * where the full-attention layers are MLA and the rest are linear. */
+  fullAttentionType?: 'gqa' | 'mla'
+  /** MLA latent rank — required when `fullAttentionType === 'mla'`. */
+  kvLoraRank?: number
+  /** MLA RoPE head dim — required when `fullAttentionType === 'mla'`. */
+  qkRopeHeadDim?: number
   linearStateBytesPerSeq: number
-  shardedByTp: true
+  shardedByTp: boolean
 }
 export type Attention = GqaAttention | MlaAttention | HybridAttention
 

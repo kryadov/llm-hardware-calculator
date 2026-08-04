@@ -92,9 +92,15 @@ const zHybridAttention = z.object({
   kvHeads: zPositiveInt,
   headDim: zPositiveInt,
   fullAttentionLayers: zPositiveInt,
+  fullAttentionType: z.enum(['gqa', 'mla']).optional(),
+  kvLoraRank: zPositiveInt.optional(),
+  qkRopeHeadDim: zPositiveInt.optional(),
   linearStateBytesPerSeq: zNonNegative,
-  shardedByTp: z.literal(true),
-})
+  shardedByTp: z.boolean(),
+}).refine(
+  (a) => a.fullAttentionType !== 'mla' || (a.kvLoraRank !== undefined && a.qkRopeHeadDim !== undefined),
+  { message: 'hybrid attention with fullAttentionType "mla" requires kvLoraRank and qkRopeHeadDim', path: ['kvLoraRank'] },
+)
 
 export const zAttention = z.discriminatedUnion('type', [
   zMhaAttention,

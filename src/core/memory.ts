@@ -79,6 +79,8 @@ export function kvBytesPerToken(model: ModelSpec, kvQuant: KvQuant): Bytes {
     case 'mla':
       return bytes(model.layers * (a.kvLoraRank + a.qkRopeHeadDim) * e)
     case 'hybrid':
+      if (a.fullAttentionType === 'mla' && a.kvLoraRank !== undefined && a.qkRopeHeadDim !== undefined)
+        return bytes(a.fullAttentionLayers * (a.kvLoraRank + a.qkRopeHeadDim) * e)
       return bytes(2 * a.fullAttentionLayers * a.kvHeads * a.headDim * e)
   }
 }
