@@ -137,11 +137,16 @@ MiniMax M1/M2 — гибрид с линейным вниманием. Кван�
 **Итоговая проверка и обратный ход к конкурентности:**
 
 ```
-perGpu     = weights/(TP×PP) + kvPerGpu + overhead
+N          = TP × PP                           // GPU в одной реплике модели
+avgSeqLen  = promptTok + outputTok             // средняя занимаемая длина кэша
+perGpu     = weights/N + kvPerGpu + overhead
 available  = hbmPerGpu × gpuMemUtil            // дефолт 0.90
-kvBudget   = (available − weights/(TP×PP) − overhead) × N
+kvBudget   = (available − weights/N − overhead) × N
 maxConcurrentSeqs = kvBudget / (kvBytesPerTok × avgSeqLen)
 ```
+
+Конфигурация проходит проверку памяти, если `weights/N + overhead < available` и
+`maxConcurrentSeqs ≥ 1`. Иначе — отказ с причиной `oom` и указанием дефицита.
 
 `maxConcurrentSeqs` — величина, в которую упирается число пользователей. Вопрос не
 «влезла ли модель», а «сколько сессий поместилось рядом с ней».
@@ -152,17 +157,23 @@ maxConcurrentSeqs = kvBudget / (kvBytesPerTok × avgSeqLen)
 Считаются раздельно, сводятся через утилизацию.
 
 ```
+batch = min(maxConcurrentSeqs, пиковая конкурентность из профиля нагрузки)
+
 Decode (memory-bound):
-  stepBytes    = activeParamBytes/(TP×PP) + batch × kvBytesPerTok × avgSeqLen / (TP×PP)
+  stepBytes    = activeParamBytes/N + batch × kvBytesPerTok × avgSeqLen / N
   stepTime     = stepBytes / (hbmBw × MBU) + commTime(TP, interconnect)
-  perUserTps   = 1 / stepTime
-  aggregateTps = batch / stepTime
+  perUserTps   = 1 / stepTime                     // скорость одного пользователя
+  decodeCapacity = batch / stepTime               // токенов/с на всю реплику
 
 Prefill (compute-bound):
   flops = 2 × activeParams × promptTok + 2 × layers × heads × headDim × promptTok²
-  time  = flops / (peakFlops(dtype) × MFU × N)
-  TTFT  = time + ожидание в очереди
+  prefillTime    = flops / (peakFlops(dtype) × MFU × N)
+  prefillCapacity = promptTok / prefillTime       // токенов/с на всю реплику
+  TTFT  = prefillTime + ожидание в очереди
 ```
+
+`decodeCapacity` и `prefillCapacity` — пропускная способность **одной реплики** модели
+(группы из `N = TP × PP` ускорителей). Обе используются в сведении ниже.
 
 `commTime` — all-reduce на слой. На NVLink пренебрежим; на PCIe при TP=8 съедает больше
 половины шага. Это причина, по которой 8× RTX в PCIe-корпусе не выдают того, что обещает
@@ -174,10 +185,21 @@ Prefill (compute-bound):
 prefillLoad = RPS × promptTok × (1 − prefixCacheHitRate) / prefillCapacity
 decodeLoad  = RPS × outputTok / decodeCapacity
 replicas    = ceil((prefillLoad + decodeLoad) / 0.8)      // 0.8 — запас на хвосты
+totalGpus   = N × replicas                                // итоговое число ускорителей
 ```
 
-Конфигурация проходит, только если выполнены **все три** условия: `perUserTps ≥ SLA`,
-`TTFT ≤ SLA`, суммарная загрузка < 1. В отказе указывается, какое именно не выполнено.
+**Критерии прохождения.** Проверяются три независимых условия: `perUserTps ≥ slaTps`,
+`TTFT ≤ slaTtft`, `prefillLoad + decodeLoad < 1` при `replicas = 1`. Реакция зависит от
+величины промаха:
+
+- все три выполнены → кандидат попадает в основную выдачу;
+- промах по `perUserTps` или `TTFT` в пределах 20% от SLA → кандидат остаётся в основной
+  выдаче, но помечается предупреждением с указанием, какое условие не дотянуто;
+- промах больше 20% → кандидат уходит в блок «Не подошло» с причиной
+  `slaTps` или `slaTtft` и фактическим значением.
+
+Порог 20% нужен потому, что точность самой модели ±25%: прятать конфигурацию,
+промахнувшуюся на 10%, было бы ложной точностью.
 
 **Prefix caching** — явный параметр, а не скрытая константа. Для кодового агента,
 где системный промпт и файлы повторяются, хит-рейт 0.7+ снижает нагрузку префилла втрое.
@@ -228,8 +250,19 @@ $/1M токенов = стоимость часа / (токенов в час)
 переворачивает выбор: конфигурация с вдвое большим CAPEX может быть дешевле на токен.
 
 Цены изолированы в `pricing.json` с полем `pricesAsOf` и баннером в интерфейсе.
-При отключённом режиме стоимости ранжирование идёт по числу GPU — калькулятор
-остаётся полезным с устаревшими ценами.
+
+### 3.6 Ранжирование
+
+Ключ сортировки выдачи зависит от выбранного режима стоимости:
+
+| Режим | Первичный ключ | Тай-брейк |
+|---|---|---|
+| Аренда | `$/1M токенов` | меньше `totalGpus`, затем выше `perUserTps` |
+| Купить | `TCO 3 года` | меньше `totalGpus`, затем выше `perUserTps` |
+| Off | `totalGpus` | выше `perUserTps` |
+
+Кандидаты с предупреждением по SLA всегда идут после безупречных, независимо от ключа.
+Режим Off существует, чтобы калькулятор оставался полезным при устаревших ценах.
 
 ## 4. Интерфейс
 
@@ -252,7 +285,7 @@ $/1M токенов = стоимость часа / (токенов в час)
 │ DAU: [500]           │   ███████░░░░░░░░░░░░░  требует IB 400G         │
 │                      │                                                 │
 │ ▸ Advanced           │   32× Ascend 910B 64GB — 4 узла                 │
-│                      │   $2.1/1M tok · 19 tok/s ⚠ ниже SLA 25 tok/s    │
+│                      │   $2.1/1M tok · 21 tok/s ⚠ SLA 25, промах 16%   │
 │ ЖЕЛЕЗО               │                                                 │
 │ ☑NVIDIA ☑AMD         ├─────────────────────────────────────────────────┤
 │ ☑RTX  ☑CN  ☐CPU/Mac  │ ▸ Не подошло (23) — с причиной по каждому       │
