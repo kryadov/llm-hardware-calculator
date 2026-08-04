@@ -13,7 +13,7 @@ import type { Dict } from './index'
 const ru: Dict = {
   header: {
     title: 'LLM Hardware Calculator',
-    tagline: 'Подбор железа под self-hosted инференс open-weights моделей.',
+    tagline: 'Подбор железа под self-hosted инференс open-weights моделей. Данные актуальны на 2026-08-05.',
     tabs: {
       explore: 'Подбор',
       verify: 'Проверка',
