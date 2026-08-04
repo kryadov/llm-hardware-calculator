@@ -69,7 +69,7 @@ const en = {
     quant: {
       section: 'Quantization',
       label: 'Weight quantization',
-      hint: 'Effective bit width includes the scale and zero-point, so INT4 with group 128 costs about 4.16 bits per weight, not 4.',
+      hint: 'Lower precision shrinks weights — and memory — at a small accuracy cost. BF16: safest, 2× larger. FP8: half the size, needs Hopper/Blackwell/MI300. INT8/INT4: smallest, runs anywhere, but below INT8 quality drops noticeably on reasoning and code. Start with Any and let the solver rank; pin a quant only if you have a specific checkpoint.',
       auto: 'Any',
       autoHint: 'Let the solver try every quantization and rank the results.',
     },
