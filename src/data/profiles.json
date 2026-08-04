@@ -1,0 +1,42 @@
+[
+  {
+    "id": "chat",
+    "requestsPerUserPerDay": 12,
+    "promptTokens": 1200,
+    "outputTokens": 500,
+    "peakFactor": 3.0,
+    "prefixCacheHitRate": 0.2,
+    "slaTokensPerSec": 20,
+    "slaTtftSeconds": 1.5
+  },
+  {
+    "id": "coding-agent",
+    "requestsPerUserPerDay": 40,
+    "promptTokens": 12000,
+    "outputTokens": 800,
+    "peakFactor": 4.0,
+    "prefixCacheHitRate": 0.7,
+    "slaTokensPerSec": 25,
+    "slaTtftSeconds": 3.0
+  },
+  {
+    "id": "rag",
+    "requestsPerUserPerDay": 20,
+    "promptTokens": 6000,
+    "outputTokens": 600,
+    "peakFactor": 3.5,
+    "prefixCacheHitRate": 0.4,
+    "slaTokensPerSec": 20,
+    "slaTtftSeconds": 2.0
+  },
+  {
+    "id": "batch",
+    "requestsPerUserPerDay": 500,
+    "promptTokens": 4000,
+    "outputTokens": 1000,
+    "peakFactor": 1.2,
+    "prefixCacheHitRate": 0.1,
+    "slaTokensPerSec": 5,
+    "slaTtftSeconds": 60.0
+  }
+]

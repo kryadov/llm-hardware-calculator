@@ -1,0 +1,30 @@
+{
+  "pricesAsOf": "2026-08-04",
+  "gpus": {
+    "h100-sxm-80": { "streetUsd": 25000, "cloudUsdPerHour": 2.2 },
+    "h100-pcie-80": { "streetUsd": 21000, "cloudUsdPerHour": 1.9 },
+    "h200-sxm-141": { "streetUsd": 32000, "cloudUsdPerHour": 3.0 },
+    "b200-180": { "streetUsd": 45000, "cloudUsdPerHour": 5.5 },
+    "gb200-192": { "streetUsd": 60000, "cloudUsdPerHour": 7.0 },
+    "a100-sxm-80": { "streetUsd": 11000, "cloudUsdPerHour": 1.2 },
+    "l40s-48": { "streetUsd": 8500, "cloudUsdPerHour": 0.9 },
+    "mi300x-192": { "streetUsd": 17000, "cloudUsdPerHour": 2.0 },
+    "mi325x-256": { "streetUsd": 22000, "cloudUsdPerHour": 2.5 },
+    "mi355x-288": { "streetUsd": 30000, "cloudUsdPerHour": 3.6 },
+    "rtx-5090-32": { "streetUsd": 2400, "cloudUsdPerHour": 0.65 },
+    "rtx-6000-blackwell-96": { "streetUsd": 8500, "cloudUsdPerHour": 1.5 },
+    "rtx-6000-ada-48": { "streetUsd": 6500, "cloudUsdPerHour": 0.9 },
+    "ascend-910b-64": { "streetUsd": 16000, "cloudUsdPerHour": null },
+    "ascend-910c-128": { "streetUsd": null, "cloudUsdPerHour": null },
+    "cambricon-mlu590-80": { "streetUsd": null, "cloudUsdPerHour": null },
+    "biren-br104-64": { "streetUsd": null, "cloudUsdPerHour": null },
+    "moore-s5000-48": { "streetUsd": null, "cloudUsdPerHour": null },
+    "hygon-dcu-z100-64": { "streetUsd": null, "cloudUsdPerHour": null },
+    "mac-studio-m3-ultra-512": { "streetUsd": 9499, "cloudUsdPerHour": null },
+    "epyc-genoa-ddr5-768": { "streetUsd": 18000, "cloudUsdPerHour": 1.5 }
+  },
+  "chassisUsd": 25000,
+  "ibSwitchUsdPerNode": 12000,
+  "usdPerKwh": 0.12,
+  "pue": 1.3
+}

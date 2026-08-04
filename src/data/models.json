@@ -1,0 +1,616 @@
+[
+  {
+    "id": "kimi-k2-instruct",
+    "family": "Kimi",
+    "displayName": "Kimi K2 Instruct",
+    "hfRepo": "moonshotai/Kimi-K2-Instruct",
+    "totalParams": 1000000000000,
+    "activeParams": 32000000000,
+    "layers": 61,
+    "hiddenSize": 7168,
+    "vocabSize": 163840,
+    "attention": {
+      "type": "mla",
+      "heads": 64,
+      "headDim": 112,
+      "kvLoraRank": 512,
+      "qkRopeHeadDim": 64,
+      "shardedByTp": false
+    },
+    "moe": {
+      "experts": 384,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 1
+    },
+    "maxContext": 131072,
+    "nativeDtype": "fp8",
+    "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "kimi-k2-thinking",
+    "family": "Kimi",
+    "displayName": "Kimi K2 Thinking",
+    "hfRepo": "moonshotai/Kimi-K2-Thinking",
+    "totalParams": 1000000000000,
+    "activeParams": 32000000000,
+    "layers": 61,
+    "hiddenSize": 7168,
+    "vocabSize": 163840,
+    "attention": {
+      "type": "mla",
+      "heads": 64,
+      "headDim": 112,
+      "kvLoraRank": 512,
+      "qkRopeHeadDim": 64,
+      "shardedByTp": false
+    },
+    "moe": {
+      "experts": 384,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 1
+    },
+    "maxContext": 262144,
+    "nativeDtype": "int4",
+    "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "glm-4.6",
+    "family": "GLM",
+    "displayName": "GLM-4.6",
+    "hfRepo": "zai-org/GLM-4.6",
+    "totalParams": 355000000000,
+    "activeParams": 32000000000,
+    "layers": 92,
+    "hiddenSize": 5120,
+    "vocabSize": 151552,
+    "attention": {
+      "type": "gqa",
+      "heads": 96,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 160,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 3
+    },
+    "maxContext": 202752,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/zai-org/GLM-4.6/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "glm-4.5",
+    "family": "GLM",
+    "displayName": "GLM-4.5",
+    "hfRepo": "zai-org/GLM-4.5",
+    "totalParams": 355000000000,
+    "activeParams": 32000000000,
+    "layers": 92,
+    "hiddenSize": 5120,
+    "vocabSize": 151552,
+    "attention": {
+      "type": "gqa",
+      "heads": 96,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 160,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 3
+    },
+    "maxContext": 131072,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/zai-org/GLM-4.5/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "glm-4.5-air",
+    "family": "GLM",
+    "displayName": "GLM-4.5-Air",
+    "hfRepo": "zai-org/GLM-4.5-Air",
+    "totalParams": 106000000000,
+    "activeParams": 12000000000,
+    "layers": 46,
+    "hiddenSize": 4096,
+    "vocabSize": 151552,
+    "attention": {
+      "type": "gqa",
+      "heads": 96,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 128,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 1
+    },
+    "maxContext": 131072,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/zai-org/GLM-4.5-Air/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "glm-4-32b-0414",
+    "family": "GLM",
+    "displayName": "GLM-4-32B-0414",
+    "hfRepo": "zai-org/GLM-4-32B-0414",
+    "totalParams": 32000000000,
+    "activeParams": 32000000000,
+    "layers": 61,
+    "hiddenSize": 6144,
+    "vocabSize": 151552,
+    "attention": {
+      "type": "gqa",
+      "heads": 48,
+      "kvHeads": 2,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 32768,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/zai-org/GLM-4-32B-0414/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "glm-4-9b-0414",
+    "family": "GLM",
+    "displayName": "GLM-4-9B-0414",
+    "hfRepo": "zai-org/GLM-4-9B-0414",
+    "totalParams": 9000000000,
+    "activeParams": 9000000000,
+    "layers": 40,
+    "hiddenSize": 4096,
+    "vocabSize": 151552,
+    "attention": {
+      "type": "gqa",
+      "heads": 32,
+      "kvHeads": 2,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 32768,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/zai-org/GLM-4-9B-0414/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "deepseek-v3.2-exp",
+    "family": "DeepSeek",
+    "displayName": "DeepSeek-V3.2-Exp",
+    "hfRepo": "deepseek-ai/DeepSeek-V3.2-Exp",
+    "totalParams": 671000000000,
+    "activeParams": 37000000000,
+    "layers": 61,
+    "hiddenSize": 7168,
+    "vocabSize": 129280,
+    "attention": {
+      "type": "mla",
+      "heads": 128,
+      "headDim": 56,
+      "kvLoraRank": 512,
+      "qkRopeHeadDim": 64,
+      "shardedByTp": false
+    },
+    "moe": {
+      "experts": 256,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 3
+    },
+    "maxContext": 163840,
+    "nativeDtype": "fp8",
+    "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "deepseek-v3.1",
+    "family": "DeepSeek",
+    "displayName": "DeepSeek-V3.1",
+    "hfRepo": "deepseek-ai/DeepSeek-V3.1",
+    "totalParams": 671000000000,
+    "activeParams": 37000000000,
+    "layers": 61,
+    "hiddenSize": 7168,
+    "vocabSize": 129280,
+    "attention": {
+      "type": "mla",
+      "heads": 128,
+      "headDim": 56,
+      "kvLoraRank": 512,
+      "qkRopeHeadDim": 64,
+      "shardedByTp": false
+    },
+    "moe": {
+      "experts": 256,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 3
+    },
+    "maxContext": 163840,
+    "nativeDtype": "fp8",
+    "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.1/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "deepseek-v3-0324",
+    "family": "DeepSeek",
+    "displayName": "DeepSeek-V3-0324",
+    "hfRepo": "deepseek-ai/DeepSeek-V3-0324",
+    "totalParams": 671000000000,
+    "activeParams": 37000000000,
+    "layers": 61,
+    "hiddenSize": 7168,
+    "vocabSize": 129280,
+    "attention": {
+      "type": "mla",
+      "heads": 128,
+      "headDim": 56,
+      "kvLoraRank": 512,
+      "qkRopeHeadDim": 64,
+      "shardedByTp": false
+    },
+    "moe": {
+      "experts": 256,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 3
+    },
+    "maxContext": 163840,
+    "nativeDtype": "fp8",
+    "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3-0324/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "deepseek-r1",
+    "family": "DeepSeek",
+    "displayName": "DeepSeek-R1",
+    "hfRepo": "deepseek-ai/DeepSeek-R1",
+    "totalParams": 671000000000,
+    "activeParams": 37000000000,
+    "layers": 61,
+    "hiddenSize": 7168,
+    "vocabSize": 129280,
+    "attention": {
+      "type": "mla",
+      "heads": 128,
+      "headDim": 56,
+      "kvLoraRank": 512,
+      "qkRopeHeadDim": 64,
+      "shardedByTp": false
+    },
+    "moe": {
+      "experts": 256,
+      "topK": 8,
+      "sharedExperts": 1,
+      "denseLayers": 3
+    },
+    "maxContext": 163840,
+    "nativeDtype": "fp8",
+    "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "deepseek-r1-distill-qwen-32b",
+    "family": "DeepSeek",
+    "displayName": "DeepSeek-R1-Distill-Qwen-32B",
+    "hfRepo": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+    "totalParams": 32800000000,
+    "activeParams": 32800000000,
+    "layers": 64,
+    "hiddenSize": 5120,
+    "vocabSize": 152064,
+    "attention": {
+      "type": "gqa",
+      "heads": 40,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 131072,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "deepseek-r1-distill-llama-8b",
+    "family": "DeepSeek",
+    "displayName": "DeepSeek-R1-Distill-Llama-8B",
+    "hfRepo": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+    "totalParams": 8030000000,
+    "activeParams": 8030000000,
+    "layers": 32,
+    "hiddenSize": 4096,
+    "vocabSize": 128256,
+    "attention": {
+      "type": "gqa",
+      "heads": 32,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 131072,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-235b-a22b",
+    "family": "Qwen",
+    "displayName": "Qwen3-235B-A22B",
+    "hfRepo": "Qwen/Qwen3-235B-A22B",
+    "totalParams": 235000000000,
+    "activeParams": 22000000000,
+    "layers": 94,
+    "hiddenSize": 4096,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 64,
+      "kvHeads": 4,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 128,
+      "topK": 8,
+      "sharedExperts": 0,
+      "denseLayers": 0
+    },
+    "maxContext": 40960,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-235B-A22B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-coder-480b-a35b-instruct",
+    "family": "Qwen",
+    "displayName": "Qwen3-Coder-480B-A35B-Instruct",
+    "hfRepo": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    "totalParams": 480000000000,
+    "activeParams": 35000000000,
+    "layers": 62,
+    "hiddenSize": 6144,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 96,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 160,
+      "topK": 8,
+      "sharedExperts": 0,
+      "denseLayers": 0
+    },
+    "maxContext": 262144,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-32b",
+    "family": "Qwen",
+    "displayName": "Qwen3-32B",
+    "hfRepo": "Qwen/Qwen3-32B",
+    "totalParams": 32800000000,
+    "activeParams": 32800000000,
+    "layers": 64,
+    "hiddenSize": 5120,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 64,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 40960,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-32B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-30b-a3b",
+    "family": "Qwen",
+    "displayName": "Qwen3-30B-A3B",
+    "hfRepo": "Qwen/Qwen3-30B-A3B",
+    "totalParams": 30500000000,
+    "activeParams": 3300000000,
+    "layers": 48,
+    "hiddenSize": 2048,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 32,
+      "kvHeads": 4,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 128,
+      "topK": 8,
+      "sharedExperts": 0,
+      "denseLayers": 0
+    },
+    "maxContext": 40960,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-30B-A3B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-14b",
+    "family": "Qwen",
+    "displayName": "Qwen3-14B",
+    "hfRepo": "Qwen/Qwen3-14B",
+    "totalParams": 14800000000,
+    "activeParams": 14800000000,
+    "layers": 40,
+    "hiddenSize": 5120,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 40,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 40960,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-14B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-8b",
+    "family": "Qwen",
+    "displayName": "Qwen3-8B",
+    "hfRepo": "Qwen/Qwen3-8B",
+    "totalParams": 8200000000,
+    "activeParams": 8200000000,
+    "layers": 36,
+    "hiddenSize": 4096,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 32,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 40960,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-8B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "qwen3-4b",
+    "family": "Qwen",
+    "displayName": "Qwen3-4B",
+    "hfRepo": "Qwen/Qwen3-4B",
+    "totalParams": 4000000000,
+    "activeParams": 4000000000,
+    "layers": 36,
+    "hiddenSize": 2560,
+    "vocabSize": 151936,
+    "attention": {
+      "type": "gqa",
+      "heads": 32,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": null,
+    "maxContext": 40960,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3-4B/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "minimax-m2",
+    "family": "MiniMax",
+    "displayName": "MiniMax-M2",
+    "hfRepo": "MiniMaxAI/MiniMax-M2",
+    "totalParams": 230000000000,
+    "activeParams": 10000000000,
+    "layers": 62,
+    "hiddenSize": 3072,
+    "vocabSize": 200064,
+    "attention": {
+      "type": "gqa",
+      "heads": 48,
+      "kvHeads": 8,
+      "headDim": 128,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 256,
+      "topK": 8,
+      "sharedExperts": 0,
+      "denseLayers": 0
+    },
+    "maxContext": 196608,
+    "nativeDtype": "fp8",
+    "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "minimax-m1-80k",
+    "family": "MiniMax",
+    "displayName": "MiniMax-M1-80k",
+    "hfRepo": "MiniMaxAI/MiniMax-M1-80k",
+    "totalParams": 456000000000,
+    "activeParams": 45900000000,
+    "layers": 80,
+    "hiddenSize": 6144,
+    "vocabSize": 200064,
+    "attention": {
+      "type": "hybrid",
+      "heads": 64,
+      "kvHeads": 8,
+      "headDim": 128,
+      "fullAttentionLayers": 10,
+      "linearStateBytesPerSeq": 2097152,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 32,
+      "topK": 2,
+      "sharedExperts": 0,
+      "denseLayers": 0
+    },
+    "maxContext": 10240000,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M1-80k/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  },
+  {
+    "id": "minimax-text-01",
+    "family": "MiniMax",
+    "displayName": "MiniMax-Text-01",
+    "hfRepo": "MiniMaxAI/MiniMax-Text-01",
+    "totalParams": 456000000000,
+    "activeParams": 45900000000,
+    "layers": 80,
+    "hiddenSize": 6144,
+    "vocabSize": 200064,
+    "attention": {
+      "type": "hybrid",
+      "heads": 64,
+      "kvHeads": 8,
+      "headDim": 128,
+      "fullAttentionLayers": 10,
+      "linearStateBytesPerSeq": 2097152,
+      "shardedByTp": true
+    },
+    "moe": {
+      "experts": 32,
+      "topK": 2,
+      "sharedExperts": 0,
+      "denseLayers": 0
+    },
+    "maxContext": 10240000,
+    "nativeDtype": "bf16",
+    "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-Text-01/blob/main/config.json",
+    "verifiedAt": "2026-08-04"
+  }
+]

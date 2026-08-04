@@ -1,0 +1,233 @@
+import type { Bytes, Seconds, TokensPerSec, Usd, Watts } from './units'
+
+export type AttentionType = 'mha' | 'gqa' | 'mla' | 'hybrid'
+export type Quant = 'bf16' | 'fp8' | 'int8' | 'int4'
+export type KvQuant = 'fp16' | 'fp8' | 'int4'
+export type Framework = 'vllm' | 'sglang'
+export type Vendor = 'nvidia' | 'amd' | 'consumer' | 'chinese' | 'cpu-apple'
+export type Interconnect =
+  | 'nvlink'
+  | 'xgmi'
+  | 'hccs'
+  | 'pcie'
+  | 'ib400'
+  | 'ib200'
+  | 'ethernet'
+  | 'unified-memory'
+export type CostMode = 'buy' | 'rent' | 'off'
+
+export interface GqaAttention {
+  type: 'mha' | 'gqa'
+  heads: number
+  kvHeads: number
+  headDim: number
+  shardedByTp: true
+  slidingWindow?: number
+}
+export interface MlaAttention {
+  type: 'mla'
+  heads: number
+  headDim: number
+  kvLoraRank: number
+  qkRopeHeadDim: number
+  shardedByTp: false
+}
+export interface HybridAttention {
+  type: 'hybrid'
+  heads: number
+  kvHeads: number
+  headDim: number
+  fullAttentionLayers: number
+  linearStateBytesPerSeq: number
+  shardedByTp: true
+}
+export type Attention = GqaAttention | MlaAttention | HybridAttention
+
+export interface MoeConfig {
+  experts: number
+  topK: number
+  sharedExperts: number
+  denseLayers: number
+}
+
+export interface ModelSpec {
+  id: string
+  family: 'Kimi' | 'GLM' | 'DeepSeek' | 'Qwen' | 'MiniMax' | 'Custom'
+  displayName: string
+  hfRepo: string
+  totalParams: number
+  activeParams: number
+  layers: number
+  hiddenSize: number
+  vocabSize: number
+  attention: Attention
+  moe: MoeConfig | null
+  maxContext: number
+  nativeDtype: Quant
+  sourceUrl: string
+  verifiedAt: string
+}
+
+export interface AcceleratorSpec {
+  id: string
+  vendor: Vendor
+  displayName: string
+  memoryGib: number
+  memBandwidthGbs: number
+  peakTflops: { bf16: number; fp8: number | null; int8: number | null }
+  tdpWatts: number
+  maxPerNode: number
+  intraNode: Interconnect
+  intraNodeGbs: number
+  frameworks: Framework[]
+  coefficientFamily: string
+  releaseYear: number
+  /** Provenance caveat surfaced by the UI (e.g. vendor-claimed, unverified figures). */
+  note?: string
+}
+
+export interface LoadProfile {
+  id: string
+  requestsPerUserPerDay: number
+  promptTokens: number
+  outputTokens: number
+  peakFactor: number
+  prefixCacheHitRate: number
+  slaTokensPerSec: number
+  slaTtftSeconds: number
+}
+
+export interface Workload {
+  profileId: string
+  dau: number
+  requestsPerUserPerDay: number
+  promptTokens: number
+  outputTokens: number
+  peakFactor: number
+  prefixCacheHitRate: number
+  slaTokensPerSec: number
+  slaTtftSeconds: number
+  maxContext: number
+  speculative: boolean
+  gpuMemUtil: number
+  kvQuant: KvQuant
+}
+
+export interface DerivedLoad {
+  peakRps: number
+  concurrentSeqs: number
+  decodeTokensPerSecNeeded: number
+  prefillTokensPerSecNeeded: number
+  avgSeqLen: number
+}
+
+export interface Parallelism {
+  tp: number
+  pp: number
+  ep: number
+  gpusPerReplica: number
+  nodesPerReplica: number
+  requiredInterconnect: Interconnect | null
+  bubblePenalty: number
+}
+
+export interface MemoryBreakdown {
+  weightsPerGpu: Bytes
+  kvPerGpu: Bytes
+  overheadPerGpu: Bytes
+  availablePerGpu: Bytes
+  freePerGpu: Bytes
+  kvBytesPerToken: Bytes
+  maxConcurrentSeqs: number
+  kvReplication: number
+}
+
+export interface Performance {
+  perUserTps: TokensPerSec
+  decodeCapacity: TokensPerSec
+  prefillCapacity: TokensPerSec
+  ttft: Seconds
+  stepTime: Seconds
+  prefillLoad: number
+  decodeLoad: number
+  commFraction: number
+  batch: number
+}
+
+export interface CostBreakdown {
+  capex: Usd | null
+  hourlyRent: Usd | null
+  powerWatts: Watts
+  hourlyPower: Usd | null
+  tco3y: Usd | null
+  /**
+   * Cost per million tokens counting prompt AND output, measured at saturation
+   * under this workload's prefill/decode mix. Prompt-heavy workloads push this
+   * far below the per-output-token figure, so it is not directly comparable to
+   * an API price list — use `usdPerMillionOutputTokens` for that.
+   */
+  usdPerMillionTokens: Usd | null
+  /**
+   * Cost per million OUTPUT tokens at saturation: the whole cost of serving the
+   * workload divided by the output tokens alone. This is the figure that lines
+   * up with published API pricing, which bills prompt and output separately.
+   */
+  usdPerMillionOutputTokens: Usd | null
+  /** Total tokens/sec (prompt + output) the fleet sustains at 100% utilization. */
+  saturatedTokensPerSec: number
+}
+
+export type RejectionReason =
+  | 'oom'
+  | 'slaTps'
+  | 'slaTtft'
+  | 'interconnect'
+  | 'tpNotDivisible'
+  | 'nodeLimit'
+  | 'unsupportedQuant'
+  | 'contextTooLong'
+  | 'internal'
+
+export interface Rejection {
+  acceleratorId: string
+  quant: Quant
+  parallelism: Parallelism
+  replicas: number
+  reason: RejectionReason
+  detail: string
+  deficitBytes?: Bytes
+  actual?: number
+  required?: number
+}
+
+export interface Warning {
+  kind: 'slaTps' | 'slaTtft' | 'degradedInterconnect' | 'immatureStack'
+  detail: string
+  missPercent?: number
+}
+
+export interface Deployment {
+  acceleratorId: string
+  accelerator: AcceleratorSpec
+  quant: Quant
+  parallelism: Parallelism
+  replicas: number
+  totalGpus: number
+  totalNodes: number
+  memory: MemoryBreakdown
+  performance: Performance
+  cost: CostBreakdown
+  warnings: Warning[]
+  framework: Framework
+  launchCommand: string
+  hostRamGib: number
+  diskGib: number
+}
+
+export interface SolveResult {
+  derived: DerivedLoad
+  deployments: Deployment[]
+  rejections: Rejection[]
+}
+
+export const UNCERTAINTY = 0.25
