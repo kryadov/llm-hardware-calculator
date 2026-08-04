@@ -2,8 +2,19 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * The theme is a manual override on top of `prefers-color-scheme`, applied by
+ * the shell as a `dark` class on <html>. `color-scheme` has to follow that class
+ * rather than the OS: left at `light dark` it would keep painting scrollbars,
+ * form controls and the canvas from the system preference, so a user who forced
+ * light on a dark desktop would get dark widgets around a light page.
+ */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 html,
