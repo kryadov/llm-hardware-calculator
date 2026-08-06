@@ -1,0 +1,154 @@
+{
+  "components": [
+    {
+      "id": "gateway",
+      "category": "gateway",
+      "displayName": "API gateway & request routing",
+      "why": "Fronts the model servers: TLS termination, rate limiting, and the load-balancing policy that decides which replica sees which request.",
+      "prefixCacheSensitive": true,
+      "options": [
+        { "kind": "managed", "displayName": "Managed gateway (Kong, Cloudflare, Apigee)", "setupWeeksLow": 1, "setupWeeksHigh": 2, "monthlyUsdLow": 200, "monthlyUsdHigh": 2000 },
+        { "kind": "oss", "displayName": "Self-hosted (Envoy, LiteLLM proxy)", "setupWeeksLow": 2, "setupWeeksHigh": 4, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom routing layer", "setupWeeksLow": 4, "setupWeeksHigh": 8, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "authn-authz",
+      "category": "identity",
+      "displayName": "Authentication & authorization",
+      "why": "Who is calling, and what are they allowed to call. OIDC/SSO integration plus per-key or per-tenant scoping.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed identity (Auth0, Okta, Azure AD)", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 200, "monthlyUsdHigh": 3000 },
+        { "kind": "oss", "displayName": "Self-hosted (Keycloak)", "setupWeeksLow": 2, "setupWeeksHigh": 5, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom API-key auth", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "metering",
+      "category": "billing",
+      "displayName": "Usage metering",
+      "why": "Counts tokens per tenant. Must separate prompt from output — a single blended counter misprices any workload whose mix differs from the one it was tuned on.",
+      "meteringGranularitySensitive": true,
+      "options": [
+        { "kind": "managed", "displayName": "Managed metering (OpenMeter, Orb)", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 300, "monthlyUsdHigh": 2500 },
+        { "kind": "oss", "displayName": "Self-hosted (OpenMeter OSS, custom Prometheus counters)", "setupWeeksLow": 2, "setupWeeksHigh": 5, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom metering pipeline", "setupWeeksLow": 3, "setupWeeksHigh": 6, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "quotas-ratelimits",
+      "category": "billing",
+      "displayName": "Quotas & rate limits",
+      "why": "Caps a single tenant's burst from starving everyone else's SLA on shared capacity.",
+      "options": [
+        { "kind": "managed", "displayName": "Built into managed gateway", "setupWeeksLow": 0.5, "setupWeeksHigh": 1, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "oss", "displayName": "Self-hosted (Redis + token bucket)", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom", "setupWeeksLow": 2, "setupWeeksHigh": 4, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "billing",
+      "category": "billing",
+      "displayName": "Invoicing & billing",
+      "why": "Turns metered usage into an invoice a customer can pay. Only needed when the deployment is sold as a service rather than run purely internally.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed billing (Stripe Billing, Metronome)", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 100, "monthlyUsdHigh": 1500 },
+        { "kind": "oss", "displayName": "Self-hosted invoicing", "setupWeeksLow": 3, "setupWeeksHigh": 6, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom billing pipeline", "setupWeeksLow": 4, "setupWeeksHigh": 8, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "observability",
+      "category": "operations",
+      "displayName": "Observability",
+      "why": "GPU/node health (DCGM), serving-engine metrics (vLLM/SGLang), request tracing. Without it the operations plan in this estimate has nothing to page on.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed (Datadog, Grafana Cloud)", "setupWeeksLow": 1, "setupWeeksHigh": 2, "monthlyUsdLow": 300, "monthlyUsdHigh": 3000 },
+        { "kind": "oss", "displayName": "Self-hosted (Prometheus + Grafana + DCGM exporter)", "setupWeeksLow": 2, "setupWeeksHigh": 4, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom", "setupWeeksLow": 4, "setupWeeksHigh": 8, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "orchestration",
+      "category": "operations",
+      "displayName": "Orchestration & model rollout",
+      "why": "Deploying, scaling and rolling back model servers without a hand-run `vllm serve` on each node.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed Kubernetes (EKS/GKE/AKS)", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 150, "monthlyUsdHigh": 800 },
+        { "kind": "oss", "displayName": "Self-hosted Kubernetes / Slurm", "setupWeeksLow": 3, "setupWeeksHigh": 6, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom process supervision", "setupWeeksLow": 2, "setupWeeksHigh": 4, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "guardrails",
+      "category": "safety",
+      "displayName": "Content guardrails",
+      "why": "Input/output filtering, PII redaction, jailbreak detection — required by most enterprise and every regulated deployment.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed (Azure AI Content Safety, Lakera)", "setupWeeksLow": 1, "setupWeeksHigh": 2, "monthlyUsdLow": 200, "monthlyUsdHigh": 2000 },
+        { "kind": "oss", "displayName": "Self-hosted (Llama Guard, NeMo Guardrails)", "setupWeeksLow": 2, "setupWeeksHigh": 5, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom rule/classifier layer", "setupWeeksLow": 3, "setupWeeksHigh": 6, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "audit",
+      "category": "safety",
+      "displayName": "Audit logging",
+      "why": "Tamper-evident record of who asked what and what came back — required for regulated deployments, useful for everyone else.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed log platform with retention policy", "setupWeeksLow": 0.5, "setupWeeksHigh": 1.5, "monthlyUsdLow": 100, "monthlyUsdHigh": 1000 },
+        { "kind": "oss", "displayName": "Self-hosted (Loki / ELK with WORM storage)", "setupWeeksLow": 2, "setupWeeksHigh": 4, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom", "setupWeeksLow": 2, "setupWeeksHigh": 4, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    },
+    {
+      "id": "backup",
+      "category": "operations",
+      "displayName": "Backup & restore",
+      "why": "Model weights cache, configs and routing state — losing a node should not mean re-downloading terabytes under an SLA clock.",
+      "options": [
+        { "kind": "managed", "displayName": "Managed object storage with lifecycle policy", "setupWeeksLow": 0.5, "setupWeeksHigh": 1, "monthlyUsdLow": 50, "monthlyUsdHigh": 500 },
+        { "kind": "oss", "displayName": "Self-hosted (MinIO / rsync jobs)", "setupWeeksLow": 1, "setupWeeksHigh": 2, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 },
+        { "kind": "build", "displayName": "Custom", "setupWeeksLow": 1, "setupWeeksHigh": 3, "monthlyUsdLow": 0, "monthlyUsdHigh": 0 }
+      ]
+    }
+  ],
+  "presets": {
+    "internal": {
+      "gateway": "oss",
+      "authn-authz": "oss",
+      "metering": "oss",
+      "quotas-ratelimits": "oss",
+      "billing": "oss",
+      "observability": "oss",
+      "orchestration": "oss",
+      "guardrails": "oss",
+      "audit": "oss",
+      "backup": "oss"
+    },
+    "commercial": {
+      "gateway": "managed",
+      "authn-authz": "managed",
+      "metering": "managed",
+      "quotas-ratelimits": "managed",
+      "billing": "managed",
+      "observability": "managed",
+      "orchestration": "managed",
+      "guardrails": "managed",
+      "audit": "managed",
+      "backup": "managed"
+    },
+    "regulated": {
+      "gateway": "oss",
+      "authn-authz": "managed",
+      "metering": "managed",
+      "quotas-ratelimits": "oss",
+      "billing": "managed",
+      "observability": "oss",
+      "orchestration": "oss",
+      "guardrails": "managed",
+      "audit": "managed",
+      "backup": "oss"
+    }
+  }
+}

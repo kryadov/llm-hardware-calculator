@@ -20,10 +20,12 @@ const en = {
     tabs: {
       explore: 'Explore',
       verify: 'Verify',
+      deploy: 'Deploy',
     },
     tabHint: {
       explore: 'What should I buy for this load?',
       verify: 'I already have this hardware — will it hold?',
+      deploy: 'What does this configuration cost to actually run, turnkey?',
     },
     lang: {
       label: 'Language',
@@ -226,7 +228,9 @@ const en = {
     disk: 'Disk for weights',
     diskHint: 'NVMe, weights plus tokenizer, index and safetensors padding.',
 
-    costTitle: 'Cost',
+    costTitle: 'Cards, chassis & electricity',
+    costTitleHint:
+      'Hardware and power only. Racks, networking, redundancy, staffing and software are not in this number — see the turnkey estimate.',
     capex: 'CAPEX',
     capexHint: 'Accelerators, chassis and InfiniBand switches for multi-node.',
     hourlyRent: 'Cloud, per hour',
@@ -252,6 +256,10 @@ const en = {
     collapse: 'Collapse',
     modelSource: 'Model config.json',
     acceleratorNote: 'Datasheet caveat',
+
+    turnkeyNote:
+      'Not reserved for redundancy — losing one replica can take the whole service down.',
+    turnkeyButton: 'Compute full turnkey cost →',
   },
 
   memoryBar: {
@@ -399,6 +407,89 @@ const en = {
     sources: 'Model hyperparameters cite the upstream config.json on Hugging Face.',
     repo: 'Source and issues on GitHub',
     offline: 'The page is fully static: no network calls, no telemetry.',
+  },
+
+  deploy: {
+    panel: {
+      section: 'Deployment',
+      hint: 'How this configuration is actually run, on top of what page 1 already sized.',
+      pinnedTitle: 'Pricing this configuration',
+      pinnedSummary: '{gpus}× {accelerator} · {quant}',
+      pinnedChangeHint: 'Change the model, load or hardware on Explore or Verify — this tab prices whatever is pinned there.',
+      facility: 'Where it runs',
+      facilityHint: 'Colocation and on-premises price a fleet you buy; cloud reuses the rented hourly rate from page 1 and skips hardware capex entirely.',
+      region: 'Region',
+      regionHint: 'Sets the colocation, electricity and staffing rates. Every rate is editable in the estimate below.',
+      availabilityPolicy: 'Redundancy',
+      availabilityPolicyHint: 'None means a single replica — losing it takes the service down. N+1 adds a standby replica; dual-site doubles the whole fleet across two locations.',
+      staffing: 'Operations coverage',
+      staffingHint: '24/7 means a rotating shift, not one engineer on call.',
+      horizonYears: 'Planning horizon, years',
+      horizonYearsHint: 'Amortization window for capex and the buy-vs-rent comparison.',
+      softwarePreset: 'Software & services preset',
+      softwarePresetHint: 'A starting point for the gateway, auth, metering, billing and observability stack — every component below can be swapped individually.',
+    },
+    results: {
+      title: 'Turnkey estimate',
+      deltaTitle: 'What page 1 showed vs. the full cost',
+      page1Label: 'Page 1 estimate',
+      fullLabel: 'Full turnkey cost',
+      perMillionTokens: 'per 1M tokens',
+      priceUnavailable: 'Cannot be priced — see the risks below',
+      waterfallTitle: 'Where the rest of the cost comes from',
+      breakevenTitle: 'Buy vs. rent',
+      breakevenMonths: 'Buying breaks even against renting in about {months} months.',
+      breakevenNever: 'Renting stays cheaper across the whole horizon at today’s rates.',
+      breakevenUnavailable: 'No cloud rental rate on file for this accelerator — cannot compare.',
+      topLineTitle: 'Biggest cost lines',
+      widestRangeTitle: 'What to confirm first',
+      widestRangeHint: 'These lines carry the widest uncertainty — a real quote here narrows the estimate the most.',
+      risksTitle: 'Assumptions & risks',
+      noRisks: 'Nothing flagged for this configuration.',
+      print: 'Print / save as PDF',
+    },
+    waterfall: {
+      page1: 'Page 1 estimate',
+      cards: 'Cards',
+      'chassis-network': 'Chassis & networking',
+      facility: 'Racks, power & facility',
+      redundancy: 'Redundancy',
+      'staffing-support': 'Staffing, support & replacements',
+      software: 'Software & services',
+      traffic: 'Traffic',
+    },
+    facility: {
+      colo: 'Colocation',
+      'on-prem': 'On-premises',
+      cloud: 'Cloud rental',
+    },
+    region: {
+      us: 'US',
+      eu: 'EU',
+      ru: 'RU',
+      apac: 'APAC',
+    },
+    availabilityPolicy: {
+      none: 'None — single replica',
+      'n+1': 'N+1',
+      'n+1-spare': 'N+1 + spares on shelf',
+      'dual-site': 'Dual-site',
+    },
+    staffing: {
+      'business-hours': 'Business hours',
+      extended: 'Extended hours',
+      '24x7': '24/7',
+    },
+    softwarePreset: {
+      internal: 'Internal tooling',
+      commercial: 'Commercial service',
+      regulated: 'Regulated industry',
+    },
+    severity: {
+      info: 'Info',
+      warning: 'Warning',
+      blocking: 'Blocking',
+    },
   },
 
   units: {

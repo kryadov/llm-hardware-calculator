@@ -54,6 +54,15 @@ launch.ts                           → the vllm/sglang command line
 solver.ts                           → enumerates candidates, ranks, explains rejections
 ```
 
+**`src/deploy/`** — the turnkey-deployment estimate (the *Deploy* tab), one layer up from
+`core`. Same discipline: pure TypeScript, `purity.test.ts` covers it too, and it depends on
+`core` (to re-run `solve()` for redundancy degradation checks) and `data` (for its own
+`infra.json`/`chassis.json`/`software.json` catalogs) — never the other way. One entry point,
+`estimate()` in `estimate.ts`, priced bottom-up and deliberately NOT netted against
+`core/cost.ts`'s numbers (see that file's header for why). Sub-modules: `availability.ts`
+(redundancy, spares, degradation), `hardware.ts`/`facility.ts`/`ops.ts`/`software.ts` (cost
+categories), `waterfall.ts`/`breakeven.ts`/`risks.ts` (presentation-shaped output).
+
 **`src/ui/`** — React. `state.ts` mirrors all form state into the query string;
 `panels/` are inputs, `results/` are outputs, `i18n/` is the dictionary pair.
 
@@ -79,6 +88,20 @@ cast raw numbers — the brands are the only thing stopping a GiB/GB or seconds/
 accelerators (Chinese parts especially) have no publishable price. In `costMode: 'off'`
 all money goes `null` while `powerWatts` stays real — the calculator must keep working
 when the price file goes stale.
+
+**In `src/deploy/`, `null` means "unpriced," never "not applicable."** `MoneyRange` (`{low,
+high} | null`) uses the same discipline, and `sumM`/`addM` (`range.ts`) propagate `null`
+through every total that touches it — by design, so a missing price doesn't silently become
+a bogus zero. That means a component that structurally doesn't apply (electricity bundled
+into the colocation fee, hardware has no monthly line) must be represented as `ZERO`
+(`{low: 0, high: 0}`), never `null` — passing `null` for "not applicable" poisons every other,
+perfectly-priced figure it's summed with. This broke `fullUsdPerMillionTokens` for a
+fully-priced accelerator during development (`estimate.ts`'s `toHourly` calls were passing a
+literal `null` for "this component has no monthly/one-time half," not "unknown") and was only
+caught by actually running the app — the unit tests had guarded the check inside an
+`if (value)` and passed vacuously. If you touch `hardware.ts`, `facility.ts`, `ops.ts` or
+`estimate.ts`, keep this distinction, and don't write a test that skips its own assertion
+when the value under test is `null`.
 
 **Two token prices, deliberately.** `usdPerMillionTokens` is blended (prompt +
 output); `usdPerMillionOutputTokens` is the API-comparable one. On a prompt-heavy

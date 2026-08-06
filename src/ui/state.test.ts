@@ -44,6 +44,16 @@ const CUSTOM: FormState = {
   costMode: 'buy',
   lang: 'ru',
   pin: { acceleratorId: someAcceleratorId, totalGpus: 16 },
+  deploy: {
+    facility: 'on-prem',
+    region: 'eu',
+    availabilityPolicy: 'n+1-spare',
+    staffing: '24x7',
+    horizonYears: 5,
+    softwarePreset: 'regulated',
+    overrides: { chassisUsd: 90000 },
+    softwareOverrides: { gateway: 'managed' },
+  },
 }
 
 describe('decodeState / encodeState', () => {

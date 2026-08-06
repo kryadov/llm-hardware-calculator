@@ -8,20 +8,26 @@
  * Implements the plan's Task 3 (Data catalogs and schemas) and the spec's §5.
  */
 import type { AcceleratorSpec, LoadProfile, ModelSpec } from '../core/types'
-import type { CoefficientTable, PricingTable } from './schema'
+import type { ChassisCatalog, CoefficientTable, InfraTable, PricingTable, SoftwareCatalog } from './schema'
 import {
   parseAccelerators,
+  parseChassis,
   parseCoefficients,
+  parseInfra,
   parseModels,
   parsePricing,
   parseProfiles,
+  parseSoftwareCatalog,
 } from './schema'
 
 import acceleratorsRaw from './accelerators.json'
+import chassisRaw from './chassis.json'
 import coefficientsRaw from './coefficients.json'
+import infraRaw from './infra.json'
 import modelsRaw from './models.json'
 import pricingRaw from './pricing.json'
 import profilesRaw from './profiles.json'
+import softwareRaw from './software.json'
 
 /** Model hyperparameters, each citing an upstream HuggingFace `config.json`. */
 export const MODELS: ModelSpec[] = parseModels(modelsRaw)
@@ -38,4 +44,13 @@ export const PRICING: PricingTable = parsePricing(pricingRaw)
 /** MBU/MFU efficiency coefficients per hardware family. */
 export const COEFFICIENTS: CoefficientTable = parseCoefficients(coefficientsRaw)
 
-export type { CoefficientTable, PricingTable } from './schema'
+/** Turnkey-deployment rates: colocation, power, staffing, failure rates — all as ranges. */
+export const INFRA: InfraTable = parseInfra(infraRaw)
+
+/** Host chassis classes (the server around the bare GPUs) with itemized line items. */
+export const CHASSIS: ChassisCatalog = parseChassis(chassisRaw)
+
+/** Software/services catalog for turnkey delivery, with per-preset defaults. */
+export const SOFTWARE: SoftwareCatalog = parseSoftwareCatalog(softwareRaw)
+
+export type { ChassisCatalog, CoefficientTable, InfraTable, PricingTable, SoftwareCatalog } from './schema'

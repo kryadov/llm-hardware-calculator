@@ -19,9 +19,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CostMode, KvQuant, Quant, Vendor, Workload } from '../core/types'
 import { ACCELERATORS, MODELS, PROFILES } from '../data'
+import { DEFAULT_DEPLOYMENT_INPUTS } from '../deploy'
+import type {
+  AvailabilityPolicy,
+  DeploymentInputs,
+  Facility,
+  Region,
+  SoftwareOptionKind,
+  SoftwarePreset,
+  StaffingMode,
+} from '../deploy'
 import type { Lang } from './i18n'
 
-export type Tab = 'explore' | 'verify'
+export type Tab = 'explore' | 'verify' | 'deploy'
 
 export interface Pin {
   acceleratorId: string
@@ -41,13 +51,22 @@ export interface FormState {
   costMode: CostMode
   lang: Lang
   pin: Pin | null
+  /** Deploy tab inputs — spec `2026-08-06-turnkey-deployment-design.md` §2.2. */
+  deploy: DeploymentInputs
 }
 
 const QUANTS: readonly Quant[] = ['bf16', 'fp8', 'int8', 'int4']
 const KV_QUANTS: readonly KvQuant[] = ['fp16', 'fp8', 'int4']
 const COST_MODES: readonly CostMode[] = ['buy', 'rent', 'off']
-const TABS: readonly Tab[] = ['explore', 'verify']
+const TABS: readonly Tab[] = ['explore', 'verify', 'deploy']
 const LANGS: readonly Lang[] = ['en', 'ru']
+
+const FACILITIES: readonly Facility[] = ['colo', 'on-prem', 'cloud']
+const REGIONS: readonly Region[] = ['us', 'eu', 'ru', 'apac']
+const AVAILABILITY_POLICIES: readonly AvailabilityPolicy[] = ['none', 'n+1', 'n+1-spare', 'dual-site']
+const STAFFING_MODES: readonly StaffingMode[] = ['business-hours', 'extended', '24x7']
+const SOFTWARE_PRESETS: readonly SoftwarePreset[] = ['internal', 'commercial', 'regulated']
+const SOFTWARE_OPTION_KINDS: readonly SoftwareOptionKind[] = ['managed', 'oss', 'build']
 
 /** Canonical vendor order, so a vendor set always encodes the same way. */
 export const VENDOR_ORDER: readonly Vendor[] = [
@@ -81,6 +100,7 @@ export const DEFAULT_STATE: FormState = {
   costMode: 'rent',
   lang: 'en',
   pin: null,
+  deploy: DEFAULT_DEPLOYMENT_INPUTS,
 }
 
 /** Query-string keys, kept short because the URL is meant to be pasted. */
@@ -94,10 +114,20 @@ const KEY = {
   costMode: 'c',
   lang: 'lang',
   pin: 'pin',
+  dFacility: 'df',
+  dRegion: 'dr',
+  dAvailability: 'da',
+  dStaffing: 'dst',
+  dHorizon: 'dh',
+  dPreset: 'dp',
 } as const
 
 /** Prefix for every `overrides` entry: `o.promptTokens=9000`. */
 const OVERRIDE_PREFIX = 'o.'
+/** Prefix for every deploy rate override: `do.chassisUsd=90000`. */
+const DEPLOY_OVERRIDE_PREFIX = 'do.'
+/** Prefix for every deploy software-selection override: `dso.gateway=managed`. */
+const DEPLOY_SOFTWARE_PREFIX = 'dso.'
 
 interface Range {
   min: number
@@ -198,6 +228,23 @@ export function encodeState(s: FormState): string {
   if (s.lang !== DEFAULT_STATE.lang) params.set(KEY.lang, s.lang)
   if (s.pin !== null) params.set(KEY.pin, `${s.pin.acceleratorId}:${s.pin.totalGpus}`)
 
+  const d = s.deploy
+  const dDefault = DEFAULT_STATE.deploy
+  if (d.facility !== dDefault.facility) params.set(KEY.dFacility, d.facility)
+  if (d.region !== dDefault.region) params.set(KEY.dRegion, d.region)
+  if (d.availabilityPolicy !== dDefault.availabilityPolicy) params.set(KEY.dAvailability, d.availabilityPolicy)
+  if (d.staffing !== dDefault.staffing) params.set(KEY.dStaffing, d.staffing)
+  if (d.horizonYears !== dDefault.horizonYears) params.set(KEY.dHorizon, String(d.horizonYears))
+  if (d.softwarePreset !== dDefault.softwarePreset) params.set(KEY.dPreset, d.softwarePreset)
+  for (const [key, value] of Object.entries(d.overrides ?? {})) {
+    if (value === undefined) continue
+    params.set(`${DEPLOY_OVERRIDE_PREFIX}${key}`, String(value))
+  }
+  for (const [key, kind] of Object.entries(d.softwareOverrides ?? {})) {
+    if (kind === undefined) continue
+    params.set(`${DEPLOY_SOFTWARE_PREFIX}${key}`, kind)
+  }
+
   return params.toString()
 }
 
@@ -226,6 +273,48 @@ const decodeVendors = (params: URLSearchParams): Vendor[] => {
   const known = VENDOR_ORDER.filter((v) => named.includes(v))
   // Every token was junk: treat the field as unset rather than as "no hardware".
   return known.length > 0 ? known : DEFAULT_STATE.vendors
+}
+
+const HORIZON_RANGE: Range = { min: 1, max: 15 }
+/** Deploy rate overrides are arbitrary USD/kW/etc figures — loose bounds, same spirit as {@link DAU_RANGE}. */
+const DEPLOY_RATE_RANGE: Range = { min: 0, max: 1e12 }
+
+/**
+ * Decode `DeploymentInputs` from the query string. Every field falls back
+ * independently, same discipline as the rest of this file: a stale or
+ * hand-edited `deploy` link degrades field by field rather than resetting
+ * the whole tab.
+ */
+const decodeDeploy = (params: URLSearchParams): DeploymentInputs => {
+  const overrides: Record<string, number> = {}
+  const prefix = DEPLOY_OVERRIDE_PREFIX
+  for (const [key, raw] of params) {
+    if (!key.startsWith(prefix)) continue
+    const n = readNumber(raw, DEPLOY_RATE_RANGE)
+    if (n !== undefined) overrides[key.slice(prefix.length)] = n
+  }
+
+  const softwareOverrides: Record<string, SoftwareOptionKind> = {}
+  const swPrefix = DEPLOY_SOFTWARE_PREFIX
+  for (const [key, raw] of params) {
+    if (!key.startsWith(swPrefix)) continue
+    const kind = readEnum(raw, SOFTWARE_OPTION_KINDS)
+    if (kind !== undefined) softwareOverrides[key.slice(swPrefix.length)] = kind
+  }
+
+  return {
+    facility: readEnum(params.get(KEY.dFacility), FACILITIES) ?? DEFAULT_DEPLOYMENT_INPUTS.facility,
+    region: readEnum(params.get(KEY.dRegion), REGIONS) ?? DEFAULT_DEPLOYMENT_INPUTS.region,
+    availabilityPolicy:
+      readEnum(params.get(KEY.dAvailability), AVAILABILITY_POLICIES) ??
+      DEFAULT_DEPLOYMENT_INPUTS.availabilityPolicy,
+    staffing: readEnum(params.get(KEY.dStaffing), STAFFING_MODES) ?? DEFAULT_DEPLOYMENT_INPUTS.staffing,
+    horizonYears: readNumber(params.get(KEY.dHorizon), HORIZON_RANGE) ?? DEFAULT_DEPLOYMENT_INPUTS.horizonYears,
+    softwarePreset:
+      readEnum(params.get(KEY.dPreset), SOFTWARE_PRESETS) ?? DEFAULT_DEPLOYMENT_INPUTS.softwarePreset,
+    ...(Object.keys(overrides).length > 0 ? { overrides } : {}),
+    ...(Object.keys(softwareOverrides).length > 0 ? { softwareOverrides } : {}),
+  }
 }
 
 const decodePin = (params: URLSearchParams): Pin | null => {
@@ -274,6 +363,7 @@ export function decodeState(qs: string): FormState {
       costMode: readEnum(params.get(KEY.costMode), COST_MODES) ?? DEFAULT_STATE.costMode,
       lang: readEnum(params.get(KEY.lang), LANGS) ?? DEFAULT_STATE.lang,
       pin: decodePin(params),
+      deploy: decodeDeploy(params),
     }
   } catch {
     // Defence in depth: a decoding bug must not blank the page.

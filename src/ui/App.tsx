@@ -27,11 +27,14 @@ import { solve } from '../core/solver'
 import type { SolveArgs } from '../core/solver'
 import type { Rejection, RejectionReason, SolveResult } from '../core/types'
 import { ACCELERATORS, PRICING } from '../data'
+import { estimate as estimateDeployment } from '../deploy'
 import ErrorBoundary from './ErrorBoundary'
 import { LangProvider, fill, isLang, useLang } from './i18n'
 import type { Dict, Lang } from './i18n'
+import { DeployPanel } from './panels/DeployPanel'
 import { InputPanel, effectiveWorkload, selectedModel } from './panels/InputPanel'
 import { solvePin } from './panels/VerifyPanel'
+import DeployResults from './results/DeployResults'
 import DeploymentCard from './results/DeploymentCard'
 import HowComputed from './results/HowComputed'
 import LoadSummary from './results/LoadSummary'
@@ -47,7 +50,7 @@ export const LANG_STORAGE_KEY = 'llm-hardware-calculator:lang'
 
 export type Theme = 'light' | 'dark'
 
-const TABS: readonly Tab[] = ['explore', 'verify']
+const TABS: readonly Tab[] = ['explore', 'verify', 'deploy']
 
 /* ------------------------------------------------------------------ */
 /* Storage and media queries — every one of them optional at runtime.   */
@@ -481,9 +484,11 @@ function NothingFits({ result }: { result: SolveResult }): ReactElement {
 
 function Results({
   state,
+  patch,
   outcome,
 }: {
   state: FormState
+  patch: (patch: Partial<FormState>) => void
   outcome: SolveResult | Error
 }): ReactElement {
   const { t } = useLang()
@@ -495,6 +500,28 @@ function Results({
   const model = selectedModel(state)
   const workload = effectiveWorkload(state)
   const top = outcome.deployments[0]
+
+  if (state.tab === 'deploy') {
+    return (
+      <div className="space-y-4">
+        <LoadSummary derived={outcome.derived} />
+        {top === undefined ? (
+          <NothingFits result={outcome} />
+        ) : (
+          <DeployResults
+            estimate={estimateDeployment({
+              chosen: top,
+              model,
+              workload,
+              accel: top.accelerator,
+              inputs: state.deploy,
+            })}
+          />
+        )}
+      </div>
+    )
+  }
+
   const verify = state.tab === 'verify'
   const noVendors = !verify && state.vendors.length === 0
 
@@ -538,6 +565,12 @@ function Results({
             model={model}
             best={i === 0}
             defaultExpanded={i === 0}
+            onComputeTurnkey={() =>
+              patch({
+                tab: 'deploy',
+                pin: { acceleratorId: deployment.acceleratorId, totalGpus: deployment.totalGpus },
+              })
+            }
           />
         ))
       )}
@@ -634,18 +667,20 @@ function Shell({
    */
   const outcome = useMemo<SolveResult | Error>(() => {
     try {
-      const verify = state.tab === 'verify'
+      // Verify pins a fleet by id; Deploy prices whatever is pinned there too
+      // (spec §2.2) — both need the exact single candidate, not an enumeration.
+      const pinned = state.tab === 'verify' || state.tab === 'deploy'
       const args: SolveArgs = {
         model: selectedModel(state),
         workload: effectiveWorkload(state),
-        // Verify pins one accelerator by id, so the vendor filter — which the
-        // input panel hides on that tab — must not be able to filter it away.
-        accelerators: verify
+        // Verify/Deploy pin one accelerator by id, so the vendor filter — which
+        // the input panel hides on those tabs — must not be able to filter it away.
+        accelerators: pinned
           ? ACCELERATORS
           : ACCELERATORS.filter((a) => state.vendors.includes(a.vendor)),
         quants: [state.quant],
         costMode: state.costMode,
-        ...(verify ? { pin: solvePin(state) } : {}),
+        ...(pinned ? { pin: solvePin(state) } : {}),
       }
       return solve(args)
     } catch (error) {
@@ -695,7 +730,15 @@ function Shell({
           aria-labelledby={`tab-${state.tab}`}
           className="flex flex-col gap-6 lg:flex-row lg:items-start"
         >
-          <InputPanel state={state} onChange={patch} />
+          {state.tab === 'deploy' ? (
+            <DeployPanel
+              state={state}
+              onChange={patch}
+              className="w-full shrink-0 space-y-4 lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:w-[380px] lg:overflow-y-auto lg:pr-2"
+            />
+          ) : (
+            <InputPanel state={state} onChange={patch} />
+          )}
 
           <div className="min-w-0 flex-1 space-y-4">
             <div className="flex flex-wrap items-center justify-end gap-2">
@@ -733,7 +776,7 @@ function Shell({
                 </section>
               )}
             >
-              <Results state={state} outcome={outcome} />
+              <Results state={state} patch={patch} outcome={outcome} />
             </ErrorBoundary>
           </div>
         </div>

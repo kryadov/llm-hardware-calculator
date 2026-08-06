@@ -1,0 +1,60 @@
+[
+  {
+    "id": "hgx-8",
+    "displayName": "8-GPU HGX/SXM server (NVSwitch or equivalent baseboard)",
+    "appliesToIntraNode": ["nvlink", "xgmi", "hccs"],
+    "minGpusPerNode": 8,
+    "lineItems": [
+      { "item": "2x server-grade CPU", "usdLow": 8000, "usdHigh": 16000 },
+      { "item": "1-2 TB DDR5 RAM", "usdLow": 8000, "usdHigh": 14000 },
+      { "item": "NVMe storage (boot + weights cache)", "usdLow": 3000, "usdHigh": 6000 },
+      { "item": "backend fabric NICs (400/800G x8)", "usdLow": 12000, "usdHigh": 24000 },
+      { "item": "chassis, NVSwitch/xGMI/HCCS baseboard, redundant PSUs", "usdLow": 15000, "usdHigh": 30000 },
+      { "item": "assembly, burn-in, integration", "usdLow": 4000, "usdHigh": 8000 }
+    ],
+    "note": "GPUs priced separately from pricing.json. This class matches the intra-node fabrics that support 8-way tensor parallelism (NVLink/xGMI/HCCS)."
+  },
+  {
+    "id": "pcie-8",
+    "displayName": "8-GPU PCIe server (no NVSwitch baseboard)",
+    "appliesToIntraNode": ["pcie"],
+    "minGpusPerNode": 4,
+    "lineItems": [
+      { "item": "2x server-grade CPU", "usdLow": 6000, "usdHigh": 12000 },
+      { "item": "512 GB - 1 TB DDR5 RAM", "usdLow": 4000, "usdHigh": 8000 },
+      { "item": "NVMe storage", "usdLow": 2000, "usdHigh": 4000 },
+      { "item": "fabric NICs (100/200G)", "usdLow": 4000, "usdHigh": 9000 },
+      { "item": "chassis, PCIe backplane, redundant PSUs", "usdLow": 6000, "usdHigh": 12000 },
+      { "item": "assembly, burn-in, integration", "usdLow": 2000, "usdHigh": 4000 }
+    ],
+    "note": "Cheaper than hgx-8 because it carries no NVSwitch-class baseboard; PCIe all-reduce is the bottleneck this class accepts."
+  },
+  {
+    "id": "workstation",
+    "displayName": "Professional workstation / tower (1-4 GPU)",
+    "appliesToIntraNode": ["pcie"],
+    "minGpusPerNode": 1,
+    "lineItems": [
+      { "item": "consumer/workstation CPU", "usdLow": 800, "usdHigh": 2500 },
+      { "item": "128-512 GB DDR5 RAM", "usdLow": 1000, "usdHigh": 3000 },
+      { "item": "NVMe storage", "usdLow": 500, "usdHigh": 1500 },
+      { "item": "chassis, single PSU (no redundancy)", "usdLow": 700, "usdHigh": 2000 },
+      { "item": "assembly and burn-in", "usdLow": 500, "usdHigh": 1500 }
+    ],
+    "note": "No PSU or NIC redundancy at this tier; single point of failure by design."
+  },
+  {
+    "id": "consumer-diy",
+    "displayName": "Consumer GPU rig (open-frame / mining-style)",
+    "appliesToIntraNode": ["pcie"],
+    "minGpusPerNode": 1,
+    "lineItems": [
+      { "item": "consumer CPU + motherboard (PCIe risers)", "usdLow": 500, "usdHigh": 1200 },
+      { "item": "64-256 GB DDR5 RAM", "usdLow": 400, "usdHigh": 1200 },
+      { "item": "NVMe storage", "usdLow": 300, "usdHigh": 800 },
+      { "item": "open frame, single PSU", "usdLow": 300, "usdHigh": 900 },
+      { "item": "assembly", "usdLow": 200, "usdHigh": 600 }
+    ],
+    "note": "No redundancy anywhere in this class. Cheapest way to rack consumer GPUs, and the least suitable for a customer-facing SLA."
+  }
+]

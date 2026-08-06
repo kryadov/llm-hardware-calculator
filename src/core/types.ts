@@ -74,6 +74,14 @@ export interface ModelSpec {
   nativeDtype: Quant
   sourceUrl: string
   verifiedAt: string
+  /**
+   * Short license label (e.g. "MIT", "Apache-2.0", "Custom (commercial-use
+   * threshold)"). Optional and purely informational for the core solver —
+   * `src/deploy` surfaces it as a blocking risk when delivering to a paying
+   * customer. Verify the exact terms at `sourceUrl`'s repository before
+   * relying on this label.
+   */
+  license?: string
 }
 
 export interface AcceleratorSpec {

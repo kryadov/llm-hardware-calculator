@@ -25,6 +25,13 @@ reason and the size of the miss — "4× H100: 218 GiB short", "8× RTX 5090: 11
 25 tok/s SLA", "16× H100 across two nodes: tensor parallel over Ethernet". That list is half
 the value of the tool.
 
+**What does this actually cost, turnkey?** The GPUs on the first page are often under half of
+total cost of ownership. The *Deploy* tab prices the exact configuration you picked — honest
+host chassis, fabric optics, racks and power (with a rack-power-fit check), redundancy,
+colocation/on-prem/cloud, staffing, vendor support, and the gateway/auth/metering/billing
+software stack — and leads with the delta: what page 1 showed versus what it costs to run for
+real. Every rate is a `[low, high]` band you can replace with your own quote.
+
 ## Coverage
 
 **41 models**, each with hyperparameters read from the upstream `config.json`, not from memory:
@@ -95,6 +102,39 @@ Both are measured at saturation along the workload's own prefill/decode mix.
 
 **Every throughput-derived number is shown as a ±25% band**, never a point value.
 
+### Turnkey deployment
+
+The *Deploy* tab (spec in
+[`2026-08-06-turnkey-deployment-design.md`](docs/superpowers/specs/2026-08-06-turnkey-deployment-design.md))
+prices whatever is pinned on Explore or Verify, bottom-up and independently of page 1's own
+capex figure — so the "cards" line of the waterfall matches page 1's card cost, and every
+line after it is what page 1 never counted:
+
+- **Redundancy** — the unit of failure is a *replica*, not a card: at TP inside a node, one
+  dead card takes the whole replica down. A single-replica configuration carries no redundancy
+  regardless of GPU count. N+1 and dual-site policies are priced by re-running the same
+  `solve()` the Verify tab uses against the surviving fleet, so "does it still hold the SLA
+  with one replica down" is answered by the solver, not guessed.
+- **Hardware** — a real host chassis by class (HGX/SXM, PCIe, workstation, consumer DIY),
+  fabric switches and *transceivers* (two per link — the line most estimates forget), and a
+  rack-power-fit check that picks the cheapest cooling class (air → rear-door → liquid) a
+  configuration's per-node draw actually needs.
+- **Facility** — colocation, on-premises or cloud rental, each with its own cost shape; a
+  peak/average power split so the electricity line isn't billed at nameplate TDP around the
+  clock.
+- **Operations** — staffing by coverage mode, vendor support, card replacements sized from a
+  published failure-rate disclosure (Meta's Llama 3 training infrastructure report), and
+  traffic egress — shown explicitly because at ~4 bytes/token it is usually negligible, not
+  because it's expensive.
+- **Software** — a catalog of gateway/auth/metering/billing/observability components, each
+  with a managed/self-hosted/build option and its own labor cost, tied back to the two things
+  on page 1 it can silently break: prefix-cache hit rate (needs session-affinity routing) and
+  the blended-vs-output token split (needs metering that counts them separately).
+
+Every rate is a `[low, high]` band, not a point — the same ±25% discipline the throughput
+model uses, extended to money that has no vendor quote yet. Replacing a default with a real
+quote collapses that line to a point and narrows the total.
+
 ## Data provenance
 
 - **Models** — every entry carries a `sourceUrl` pointing at the exact `config.json` it was
@@ -110,6 +150,12 @@ Both are measured at saturation along the workload's own prefill/decode mix.
 - **Prices** — isolated in `src/data/pricing.json` with a single `pricesAsOf` date, shown in
   the footer. They are the first thing to go stale; the calculator still ranks by GPU count
   with pricing switched off.
+- **Turnkey rates** — colocation, electricity, staffing, vendor support and card failure
+  rates live in `src/data/infra.json`, host chassis line items in `chassis.json`, and the
+  software/services catalog in `software.json`. These are engineering estimates, not vendor
+  quotes — every figure is a `[low, high]` band with a note where it cites a source (e.g. the
+  failure-rate figures cite Meta's Llama 3 infrastructure disclosure), and every one is
+  editable in the Deploy tab.
 
 ## Development
 
@@ -124,7 +170,8 @@ npm run build
 The calculation core in `src/core/` is pure TypeScript with no runtime dependencies and no
 React import — a lint test enforces that. It is covered by unit tests for the formulas plus
 a reality-check suite that guards against order-of-magnitude errors against known
-deployments.
+deployments. `src/deploy/` (the turnkey estimate) is the same discipline one layer up: pure
+TypeScript, depends on `src/core/` but never the reverse, enforced by the same test.
 
 Deployment to GitHub Pages runs from `.github/workflows/deploy.yml` on every push to `main`;
 red tests block the deploy.

@@ -29,6 +29,111 @@ export interface CoefficientTable {
   families: Record<string, { mbu: number; mfu: number; note: string }>
 }
 
+/**
+ * Turnkey-deployment catalogs (`src/deploy`). Rates that vary by region or
+ * protocol maturity and go stale fast, so every one is a `{low, high}` band
+ * rather than a point value — the same discipline `UNCERTAINTY` applies to
+ * throughput, extended to money that has no vendor quote yet.
+ */
+export interface RangeValue {
+  low: number
+  high: number
+}
+
+export interface RegionRates {
+  colocationUsdPerKwMonth: RangeValue
+  crossConnectUsdPerMonth: RangeValue
+  remoteHandsUsdPerHour: RangeValue
+  colocationSetupUsd: RangeValue
+  electricityUsdPerKwh: RangeValue
+  onPremBuildUsdPerKw: RangeValue
+  staffUsdPerMonth: RangeValue
+}
+
+export interface CoolingClass {
+  rackPowerCeilingKw: RangeValue
+  pue: RangeValue
+}
+
+export interface FailureRate {
+  /** Fraction of installed cards replaced per year. */
+  annualFailureRate: RangeValue
+  note: string
+}
+
+export interface InfraTable {
+  asOf: string
+  regions: Record<string, RegionRates>
+  /** Keyed by cooling class: 'air' | 'rear-door' | 'liquid'. */
+  cooling: Record<string, CoolingClass>
+  /** Keyed by `AcceleratorSpec.coefficientFamily`, mirroring coefficients.json. */
+  failureRates: Record<string, FailureRate>
+  rmaWeeks: { withSupportContract: RangeValue; withoutSupportContract: RangeValue }
+  networking: {
+    switchPortUsd: RangeValue
+    opticsPairUsdPerLink: RangeValue
+    frontendNetworkUsdPerNode: RangeValue
+    managementSwitchUsd: RangeValue
+  }
+  vendorSupport: {
+    serverSupportPctOfCapexPerYear: RangeValue
+    fabricSupportPctOfCapexPerYear: RangeValue
+    softwareSubscriptionUsdPerGpuPerYear: RangeValue
+  }
+  oneTime: {
+    shippingCustomsUsdPerNode: RangeValue
+    installCommissioningUsdPerNode: RangeValue
+    burnInUsdPerNode: RangeValue
+  }
+  /** FTE headcount multiplier for continuous coverage, keyed by staffing mode. */
+  staffingCoverageFte: Record<string, number>
+  trafficEgressUsdPerGb: RangeValue
+}
+
+export interface ChassisLineItem {
+  item: string
+  usdLow: number
+  usdHigh: number
+}
+
+export interface ChassisClass {
+  id: string
+  displayName: string
+  /** `Interconnect` values this class applies to — see core/types.ts. */
+  appliesToIntraNode: string[]
+  minGpusPerNode: number
+  lineItems: ChassisLineItem[]
+  note: string
+}
+
+export type ChassisCatalog = ChassisClass[]
+
+export interface SoftwareOption {
+  kind: 'managed' | 'oss' | 'build'
+  displayName: string
+  setupWeeksLow: number
+  setupWeeksHigh: number
+  monthlyUsdLow: number
+  monthlyUsdHigh: number
+}
+
+export interface SoftwareComponent {
+  id: string
+  category: string
+  displayName: string
+  why: string
+  options: SoftwareOption[]
+  /** Routing without session affinity collapses prefixCacheHitRate toward zero. */
+  prefixCacheSensitive?: boolean
+  /** A single blended token counter misprices prompt-heavy workloads. */
+  meteringGranularitySensitive?: boolean
+}
+
+export interface SoftwareCatalog {
+  components: SoftwareComponent[]
+  presets: Record<string, Record<string, 'managed' | 'oss' | 'build'>>
+}
+
 /* ------------------------------------------------------------------ */
 /* Primitive enums — mirror of src/core/types.ts                       */
 /* ------------------------------------------------------------------ */
@@ -137,6 +242,7 @@ export const zModel = z
     nativeDtype: zQuant,
     sourceUrl: z.string().url(),
     verifiedAt: zIsoDate,
+    license: z.string().min(1).optional(),
   })
   .refine((m) => m.activeParams <= m.totalParams, {
     message: 'activeParams must not exceed totalParams',
@@ -197,6 +303,119 @@ export const zCoefficientEntry = z.object({
 
 export const zCoefficients = z.object({
   families: z.record(z.string(), zCoefficientEntry),
+})
+
+/* ------------------------------------------------------------------ */
+/* Turnkey-deployment catalogs                                         */
+/* ------------------------------------------------------------------ */
+
+export const zRange = z
+  .object({ low: zNonNegative, high: zNonNegative })
+  .refine((r) => r.low <= r.high, { message: 'low must not exceed high', path: ['low'] })
+
+const zRegionRates = z.object({
+  colocationUsdPerKwMonth: zRange,
+  crossConnectUsdPerMonth: zRange,
+  remoteHandsUsdPerHour: zRange,
+  colocationSetupUsd: zRange,
+  electricityUsdPerKwh: zRange,
+  onPremBuildUsdPerKw: zRange,
+  staffUsdPerMonth: zRange,
+})
+
+const zCoolingClass = z.object({
+  rackPowerCeilingKw: zRange,
+  pue: z.object({ low: z.number().finite().min(1), high: z.number().finite().min(1) }).refine(
+    (r) => r.low <= r.high,
+    { message: 'low must not exceed high', path: ['low'] },
+  ),
+})
+
+const zFailureRate = z.object({
+  annualFailureRate: z.object({ low: zFraction, high: zFraction }).refine(
+    (r) => r.low <= r.high,
+    { message: 'low must not exceed high', path: ['low'] },
+  ),
+  note: z.string().min(1),
+})
+
+export const zInfra = z.object({
+  asOf: zIsoDate,
+  regions: z.record(z.string(), zRegionRates),
+  cooling: z.record(z.string(), zCoolingClass),
+  failureRates: z.record(z.string(), zFailureRate),
+  rmaWeeks: z.object({
+    withSupportContract: zRange,
+    withoutSupportContract: zRange,
+  }),
+  networking: z.object({
+    switchPortUsd: zRange,
+    opticsPairUsdPerLink: zRange,
+    frontendNetworkUsdPerNode: zRange,
+    managementSwitchUsd: zRange,
+  }),
+  vendorSupport: z.object({
+    serverSupportPctOfCapexPerYear: zRange,
+    fabricSupportPctOfCapexPerYear: zRange,
+    softwareSubscriptionUsdPerGpuPerYear: zRange,
+  }),
+  oneTime: z.object({
+    shippingCustomsUsdPerNode: zRange,
+    installCommissioningUsdPerNode: zRange,
+    burnInUsdPerNode: zRange,
+  }),
+  staffingCoverageFte: z.record(z.string(), zPositive),
+  trafficEgressUsdPerGb: zRange,
+})
+
+const zChassisLineItem = z
+  .object({
+    item: z.string().min(1),
+    usdLow: zNonNegative,
+    usdHigh: zNonNegative,
+  })
+  .refine((l) => l.usdLow <= l.usdHigh, { message: 'usdLow must not exceed usdHigh', path: ['usdLow'] })
+
+export const zChassisClass = z.object({
+  id: z.string().min(1),
+  displayName: z.string().min(1),
+  appliesToIntraNode: z.array(zInterconnect).min(1),
+  minGpusPerNode: zPositiveInt,
+  lineItems: z.array(zChassisLineItem).min(1),
+  note: z.string().min(1),
+})
+
+const zSoftwareOption = z
+  .object({
+    kind: z.enum(['managed', 'oss', 'build']),
+    displayName: z.string().min(1),
+    setupWeeksLow: zNonNegative,
+    setupWeeksHigh: zNonNegative,
+    monthlyUsdLow: zNonNegative,
+    monthlyUsdHigh: zNonNegative,
+  })
+  .refine((o) => o.setupWeeksLow <= o.setupWeeksHigh, {
+    message: 'setupWeeksLow must not exceed setupWeeksHigh',
+    path: ['setupWeeksLow'],
+  })
+  .refine((o) => o.monthlyUsdLow <= o.monthlyUsdHigh, {
+    message: 'monthlyUsdLow must not exceed monthlyUsdHigh',
+    path: ['monthlyUsdLow'],
+  })
+
+const zSoftwareComponent = z.object({
+  id: z.string().min(1),
+  category: z.string().min(1),
+  displayName: z.string().min(1),
+  why: z.string().min(1),
+  options: z.array(zSoftwareOption).min(1),
+  prefixCacheSensitive: z.boolean().optional(),
+  meteringGranularitySensitive: z.boolean().optional(),
+})
+
+export const zSoftwareCatalog = z.object({
+  components: z.array(zSoftwareComponent).min(1),
+  presets: z.record(z.string(), z.record(z.string(), z.enum(['managed', 'oss', 'build']))),
 })
 
 /* ------------------------------------------------------------------ */
@@ -272,4 +491,19 @@ export function parsePricing(raw: unknown): PricingTable {
 /** Validates `coefficients.json`. Throws naming the offending family key. */
 export function parseCoefficients(raw: unknown): CoefficientTable {
   return parseObject(zCoefficients, raw, 'coefficients') as CoefficientTable
+}
+
+/** Validates `infra.json`. Throws naming the offending field. */
+export function parseInfra(raw: unknown): InfraTable {
+  return parseObject(zInfra, raw, 'infra') as InfraTable
+}
+
+/** Validates `chassis.json`. Throws naming the offending chassis class id. */
+export function parseChassis(raw: unknown): ChassisCatalog {
+  return parseList(zChassisClass, raw, 'chassis class') as ChassisCatalog
+}
+
+/** Validates `software.json`. Throws naming the offending component id. */
+export function parseSoftwareCatalog(raw: unknown): SoftwareCatalog {
+  return parseObject(zSoftwareCatalog, raw, 'software catalog') as SoftwareCatalog
 }

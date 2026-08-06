@@ -80,6 +80,9 @@ describe('dictionary shape', () => {
       'card.ep',
       'card.ttft',
       'card.capex',
+      'deploy.panel.pinnedSummary',
+      'deploy.availabilityPolicy.n+1',
+      'deploy.staffing.24x7',
     ])
     const byDesign = (path: string) =>
       path.startsWith('units.') ||

@@ -179,6 +179,12 @@ export interface DeploymentCardProps {
   /** Start expanded — used by the shell for the first result and by tests. */
   defaultExpanded?: boolean
   className?: string
+  /**
+   * Turnkey-estimate handoff (spec §3): pins this exact configuration and
+   * switches to the deploy tab. Omitted in contexts with no deploy tab to
+   * hand off to (e.g. isolated component tests).
+   */
+  onComputeTurnkey?: () => void
 }
 
 export default function DeploymentCard({
@@ -187,6 +193,7 @@ export default function DeploymentCard({
   best = false,
   defaultExpanded = false,
   className,
+  onComputeTurnkey,
 }: DeploymentCardProps) {
   const { t, lang } = useLang()
   const [expanded, setExpanded] = useState(defaultExpanded)
@@ -289,6 +296,20 @@ export default function DeploymentCard({
       <WarningList warnings={deployment.warnings} />
 
       <MemoryBar memory={memory} className="mt-4" />
+
+      {/* ---- Turnkey handoff ------------------------------------------ */}
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-black/10 bg-black/[0.02] px-3 py-2 dark:border-white/10 dark:bg-white/[0.03]">
+        <p className="text-[11px] leading-snug text-[#898781]">{t.card.turnkeyNote}</p>
+        {onComputeTurnkey ? (
+          <button
+            type="button"
+            onClick={onComputeTurnkey}
+            className="shrink-0 rounded-md border border-black/10 px-2 py-1 text-[11px] font-medium text-[#52514e] hover:bg-black/[0.03] dark:border-white/10 dark:text-[#c3c2b7] dark:hover:bg-white/[0.05]"
+          >
+            {t.card.turnkeyButton}
+          </button>
+        ) : null}
+      </div>
 
       {/* ---- Disclosure --------------------------------------------- */}
       <button
@@ -432,7 +453,10 @@ export default function DeploymentCard({
 
           {/* ---- Cost ---------------------------------------------- */}
           <section>
-            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-[#898781]">
+            <h4
+              className="mb-1 text-xs font-semibold uppercase tracking-wide text-[#898781]"
+              title={t.card.costTitleHint}
+            >
               {t.card.costTitle}
             </h4>
             <dl className="divide-y divide-black/5 dark:divide-white/5">

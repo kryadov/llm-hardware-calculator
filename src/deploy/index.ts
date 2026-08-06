@@ -1,0 +1,13 @@
+/** Public surface of `src/deploy` — the turnkey-deployment estimate (spec §2.1). */
+export { estimate } from './estimate'
+export { deployedReplicas, sparesForFleet, checkDegradation, estimateAvailability } from './availability'
+export { chassisClassFor, chassisUnitCost, estimateHardware } from './hardware'
+export { selectCooling, estimateFacility } from './facility'
+export { estimateOps } from './ops'
+export { estimateSoftware } from './software'
+export { computeBreakeven } from './breakeven'
+export { buildWaterfall } from './waterfall'
+export { collectRisks } from './risks'
+export * from './range'
+export { DEFAULT_DEPLOYMENT_INPUTS } from './types'
+export type * from './types'

@@ -30,7 +30,8 @@
     "maxContext": 1048576,
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
   },
   {
     "id": "kimi-k2-7-code",
@@ -59,7 +60,8 @@
     "maxContext": 262144,
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
   },
   {
     "id": "kimi-k2-6",
@@ -88,7 +90,8 @@
     "maxContext": 262144,
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
   },
   {
     "id": "kimi-k2-5",
@@ -117,7 +120,8 @@
     "maxContext": 262144,
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
   },
   {
     "id": "kimi-k2-thinking",
@@ -146,7 +150,8 @@
     "maxContext": 262144,
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
   },
   {
     "id": "kimi-k2-instruct",
@@ -175,7 +180,8 @@
     "maxContext": 131072,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
   },
   {
     "id": "glm-5.2",
@@ -204,7 +210,8 @@
     "maxContext": 1048576,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-5.2/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-5.1",
@@ -233,7 +240,8 @@
     "maxContext": 202752,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-5.1/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-4.7-flash",
@@ -262,7 +270,8 @@
     "maxContext": 202752,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.7-Flash/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-4.6",
@@ -290,7 +299,8 @@
     "maxContext": 202752,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.6/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-4.5",
@@ -318,7 +328,8 @@
     "maxContext": 131072,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.5/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-4.5-air",
@@ -346,7 +357,8 @@
     "maxContext": 131072,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.5-Air/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-4-32b-0414",
@@ -369,7 +381,8 @@
     "maxContext": 32768,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4-32B-0414/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "glm-4-9b-0414",
@@ -392,7 +405,8 @@
     "maxContext": 32768,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4-9B-0414/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "deepseek-v4-flash-0731",
@@ -420,7 +434,8 @@
     "maxContext": 1048576,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "MIT"
   },
   {
     "id": "deepseek-v4-pro",
@@ -448,7 +463,8 @@
     "maxContext": 1048576,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "MIT"
   },
   {
     "id": "deepseek-v4-flash",
@@ -476,7 +492,8 @@
     "maxContext": 1048576,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "MIT"
   },
   {
     "id": "deepseek-v3.2-exp",
@@ -505,7 +522,8 @@
     "maxContext": 163840,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "MIT"
   },
   {
     "id": "deepseek-v3.1",
@@ -534,7 +552,8 @@
     "maxContext": 163840,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.1/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "MIT"
   },
   {
     "id": "deepseek-v3-0324",
@@ -563,7 +582,8 @@
     "maxContext": 163840,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3-0324/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "MIT"
   },
   {
     "id": "deepseek-r1",
@@ -592,7 +612,8 @@
     "maxContext": 163840,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "MIT"
   },
   {
     "id": "deepseek-r1-distill-qwen-32b",
@@ -615,7 +636,8 @@
     "maxContext": 131072,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "MIT"
   },
   {
     "id": "deepseek-r1-distill-llama-8b",
@@ -638,7 +660,8 @@
     "maxContext": 131072,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "MIT"
   },
   {
     "id": "qwen3.6-27b",
@@ -661,7 +684,8 @@
     "maxContext": 262144,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.6-27B/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3.6-35b-a3b",
@@ -689,7 +713,8 @@
     "maxContext": 262144,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3.5-397b-a17b",
@@ -717,7 +742,8 @@
     "maxContext": 262144,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3.5-122b-a10b",
@@ -745,7 +771,8 @@
     "maxContext": 262144,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.5-122B-A10B/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-235b-a22b",
@@ -773,7 +800,8 @@
     "maxContext": 40960,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-235B-A22B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-coder-480b-a35b-instruct",
@@ -801,7 +829,8 @@
     "maxContext": 262144,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-32b",
@@ -824,7 +853,8 @@
     "maxContext": 40960,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-32B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-30b-a3b",
@@ -852,7 +882,8 @@
     "maxContext": 40960,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-30B-A3B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-14b",
@@ -875,7 +906,8 @@
     "maxContext": 40960,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-14B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-8b",
@@ -898,7 +930,8 @@
     "maxContext": 40960,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-8B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "qwen3-4b",
@@ -921,7 +954,8 @@
     "maxContext": 40960,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-4B/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Apache-2.0"
   },
   {
     "id": "minimax-m3",
@@ -949,7 +983,8 @@
     "maxContext": 1048576,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M3/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "minimax-m2-7",
@@ -977,7 +1012,8 @@
     "maxContext": 204800,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2.7/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "minimax-m2-5",
@@ -1005,7 +1041,8 @@
     "maxContext": 196608,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2.5/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "minimax-m2-1",
@@ -1033,7 +1070,8 @@
     "maxContext": 196608,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2.1/blob/main/config.json",
-    "verifiedAt": "2026-08-05"
+    "verifiedAt": "2026-08-05",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "minimax-m2",
@@ -1061,7 +1099,8 @@
     "maxContext": 196608,
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "minimax-m1-80k",
@@ -1091,7 +1130,8 @@
     "maxContext": 10240000,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M1-80k/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   },
   {
     "id": "minimax-text-01",
@@ -1121,6 +1161,7 @@
     "maxContext": 10240000,
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-Text-01/blob/main/config.json",
-    "verifiedAt": "2026-08-04"
+    "verifiedAt": "2026-08-04",
+    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
   }
 ]

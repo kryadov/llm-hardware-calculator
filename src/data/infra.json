@@ -1,0 +1,98 @@
+{
+  "asOf": "2026-08-06",
+  "regions": {
+    "us": {
+      "colocationUsdPerKwMonth": { "low": 120, "high": 180 },
+      "crossConnectUsdPerMonth": { "low": 150, "high": 400 },
+      "remoteHandsUsdPerHour": { "low": 150, "high": 300 },
+      "colocationSetupUsd": { "low": 2000, "high": 5000 },
+      "electricityUsdPerKwh": { "low": 0.08, "high": 0.14 },
+      "onPremBuildUsdPerKw": { "low": 3000, "high": 6000 },
+      "staffUsdPerMonth": { "low": 12000, "high": 18000 }
+    },
+    "eu": {
+      "colocationUsdPerKwMonth": { "low": 130, "high": 200 },
+      "crossConnectUsdPerMonth": { "low": 150, "high": 400 },
+      "remoteHandsUsdPerHour": { "low": 150, "high": 300 },
+      "colocationSetupUsd": { "low": 2000, "high": 5000 },
+      "electricityUsdPerKwh": { "low": 0.12, "high": 0.22 },
+      "onPremBuildUsdPerKw": { "low": 3500, "high": 6500 },
+      "staffUsdPerMonth": { "low": 8000, "high": 14000 }
+    },
+    "ru": {
+      "colocationUsdPerKwMonth": { "low": 70, "high": 120 },
+      "crossConnectUsdPerMonth": { "low": 100, "high": 300 },
+      "remoteHandsUsdPerHour": { "low": 80, "high": 180 },
+      "colocationSetupUsd": { "low": 1000, "high": 3000 },
+      "electricityUsdPerKwh": { "low": 0.05, "high": 0.09 },
+      "onPremBuildUsdPerKw": { "low": 2000, "high": 4500 },
+      "staffUsdPerMonth": { "low": 3000, "high": 6000 }
+    },
+    "apac": {
+      "colocationUsdPerKwMonth": { "low": 90, "high": 150 },
+      "crossConnectUsdPerMonth": { "low": 100, "high": 350 },
+      "remoteHandsUsdPerHour": { "low": 100, "high": 220 },
+      "colocationSetupUsd": { "low": 1500, "high": 4000 },
+      "electricityUsdPerKwh": { "low": 0.08, "high": 0.16 },
+      "onPremBuildUsdPerKw": { "low": 2500, "high": 5500 },
+      "staffUsdPerMonth": { "low": 4000, "high": 9000 }
+    }
+  },
+  "cooling": {
+    "air": { "rackPowerCeilingKw": { "low": 5, "high": 15 }, "pue": { "low": 1.4, "high": 1.6 } },
+    "rear-door": { "rackPowerCeilingKw": { "low": 15, "high": 40 }, "pue": { "low": 1.25, "high": 1.4 } },
+    "liquid": { "rackPowerCeilingKw": { "low": 40, "high": 120 }, "pue": { "low": 1.1, "high": 1.2 } }
+  },
+  "failureRates": {
+    "nvidia-hopper-blackwell": {
+      "annualFailureRate": { "low": 0.03, "high": 0.07 },
+      "note": "Derived from Meta's Llama 3 training infrastructure disclosure: 419 unplanned interruptions over 54 days on a 16,384-H100 cluster, with GPU/HBM3 issues the largest hardware category. Annualized interruption rate is ~17%/GPU/yr; this figure takes the fraction that requires an actual card replacement rather than a reboot, which is materially lower."
+    },
+    "nvidia-ampere": {
+      "annualFailureRate": { "low": 0.04, "high": 0.08 },
+      "note": "No public disclosure at this age of part; estimated slightly above Hopper/Blackwell for an older process node and longer field time."
+    },
+    "amd-instinct": {
+      "annualFailureRate": { "low": 0.03, "high": 0.08 },
+      "note": "No public large-cluster disclosure comparable to Meta's; range widened accordingly."
+    },
+    "consumer-pcie": {
+      "annualFailureRate": { "low": 0.08, "high": 0.15 },
+      "note": "Consumer cards are not rated for continuous datacenter duty cycles or vapor-chamber-free dense racking; field data is anecdotal, not vendor-disclosed."
+    },
+    "chinese-accelerator": {
+      "annualFailureRate": { "low": 0.05, "high": 0.15 },
+      "note": "Not independently verified — no public MLPerf or reliability disclosure exists for these parts."
+    },
+    "cpu-unified": {
+      "annualFailureRate": { "low": 0.02, "high": 0.04 },
+      "note": "Workstation/server-class hardware with mature field history; no discrete GPU to fail."
+    }
+  },
+  "rmaWeeks": {
+    "withSupportContract": { "low": 0.4, "high": 1.5 },
+    "withoutSupportContract": { "low": 3, "high": 10 }
+  },
+  "networking": {
+    "switchPortUsd": { "low": 400, "high": 1200 },
+    "opticsPairUsdPerLink": { "low": 600, "high": 1500 },
+    "frontendNetworkUsdPerNode": { "low": 500, "high": 1500 },
+    "managementSwitchUsd": { "low": 1500, "high": 4000 }
+  },
+  "vendorSupport": {
+    "serverSupportPctOfCapexPerYear": { "low": 0.08, "high": 0.15 },
+    "fabricSupportPctOfCapexPerYear": { "low": 0.1, "high": 0.15 },
+    "softwareSubscriptionUsdPerGpuPerYear": { "low": 500, "high": 2000 }
+  },
+  "oneTime": {
+    "shippingCustomsUsdPerNode": { "low": 500, "high": 3000 },
+    "installCommissioningUsdPerNode": { "low": 1000, "high": 4000 },
+    "burnInUsdPerNode": { "low": 300, "high": 1000 }
+  },
+  "staffingCoverageFte": {
+    "business-hours": 1,
+    "extended": 2.2,
+    "24x7": 4.5
+  },
+  "trafficEgressUsdPerGb": { "low": 0.02, "high": 0.09 }
+}
