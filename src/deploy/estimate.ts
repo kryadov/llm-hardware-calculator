@@ -240,36 +240,66 @@ export function estimate(ctx: EstimateContext): DeploymentEstimate {
     trafficHourlyUsd: deployed.trafficHourlyUsd,
   })
 
+  /* --- Absolute money -------------------------------------------------
+   * The same two figures drive the headline totals and the buy-vs-rent
+   * comparison, so they are computed once. In cloud mode nothing is bought:
+   * the one-time side is a structural ZERO (not `null` — see `toHourly`) and
+   * the rented hourly rate becomes a monthly line instead.
+   */
+  const cloudRate = PRICING.gpus[accel.id]?.cloudUsdPerHour ?? null
+  const cloudRentalMonthly: MoneyRange =
+    cloudRate === null ? null : point(cloudRate * deployedTotalGpus * HOURS_PER_MONTH)
+
+  const oneTimeUsd: MoneyRange =
+    inputs.facility === 'cloud'
+      ? software.oneTimeSetupUsd
+      : sumM([
+          deployed.hardware.totalOneTimeUsd,
+          deployed.facility.oneTimeFacilityUsd,
+          availability.sparesUsd,
+          software.oneTimeSetupUsd,
+        ])
+
+  const monthlyUsd: MoneyRange = sumM([
+    inputs.facility === 'cloud' ? cloudRentalMonthly : deployed.facility.monthlyFacilityUsd,
+    inputs.facility === 'cloud' ? ZERO : deployed.ops.monthlyElectricityUsd,
+    inputs.facility === 'cloud' ? ZERO : deployed.ops.monthlySupportUsd,
+    inputs.facility === 'cloud' ? ZERO : deployed.ops.monthlyReplacementsUsd,
+    deployed.ops.monthlyStaffingUsd,
+    software.monthlyUsd,
+    deployed.ops.monthlyTrafficUsd,
+  ])
+
+  const residual = inputs.residualValueUsd ?? ZERO
+  const horizonTcoUsd: MoneyRange =
+    oneTimeUsd === null || monthlyUsd === null
+      ? null
+      : {
+          low: oneTimeUsd.low + monthlyUsd.low * horizonMonths - residual.high,
+          high: oneTimeUsd.high + monthlyUsd.high * horizonMonths - residual.low,
+        }
+
+  const totals = {
+    oneTimeUsd,
+    monthlyUsd,
+    horizonTcoUsd,
+    horizonYears: Math.max(1, inputs.horizonYears),
+  }
+
   let breakeven = null
   if (inputs.facility !== 'cloud') {
-    const cloudRate = PRICING.gpus[accel.id]?.cloudUsdPerHour ?? null
     const rentMonthly: MoneyRange =
-      cloudRate === null
+      cloudRentalMonthly === null
         ? null
         : sumM([
-            point(cloudRate * deployedTotalGpus * HOURS_PER_MONTH),
+            cloudRentalMonthly,
             deployed.ops.monthlyStaffingUsd,
             software.monthlyUsd,
             deployed.ops.monthlyTrafficUsd,
           ])
-    const buyOneTime = sumM([
-      deployed.hardware.totalOneTimeUsd,
-      deployed.facility.oneTimeFacilityUsd,
-      availability.sparesUsd,
-      software.oneTimeSetupUsd,
-    ])
-    const buyMonthly = sumM([
-      deployed.facility.monthlyFacilityUsd,
-      deployed.ops.monthlyElectricityUsd,
-      deployed.ops.monthlySupportUsd,
-      deployed.ops.monthlyReplacementsUsd,
-      deployed.ops.monthlyStaffingUsd,
-      software.monthlyUsd,
-      deployed.ops.monthlyTrafficUsd,
-    ])
     breakeven = computeBreakeven({
-      buyOneTimeUsd: buyOneTime,
-      buyMonthlyUsd: buyMonthly,
+      buyOneTimeUsd: oneTimeUsd,
+      buyMonthlyUsd: monthlyUsd,
       rentMonthlyUsd: rentMonthly,
       horizonMonths,
     })
@@ -315,6 +345,7 @@ export function estimate(ctx: EstimateContext): DeploymentEstimate {
     availability,
     ops: deployed.ops,
     software,
+    totals,
     page1UsdPerMillionTokens,
     fullUsdPerMillionTokens,
     waterfall,

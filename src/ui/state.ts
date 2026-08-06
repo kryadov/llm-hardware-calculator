@@ -375,27 +375,74 @@ const currentSearch = (): string =>
   typeof window === 'undefined' ? '' : window.location.search
 
 /**
+ * Is this change a NAVIGATION (switching tab, pinning a configuration) rather
+ * than an edit (typing a DAU, dragging a slider)?
+ *
+ * The distinction is the whole reason Back works. Every state change used to go
+ * through `replaceState` so that typing "1000" into DAU would not push four
+ * history entries — correct for edits, but it also meant jumping to the Deploy
+ * tab left no entry, and Back walked out of the calculator to whatever page the
+ * user came from.
+ */
+function isNavigation(prev: FormState, next: FormState): boolean {
+  if (prev.tab !== next.tab) return true
+  const a = prev.pin
+  const b = next.pin
+  if ((a === null) !== (b === null)) return true
+  if (a !== null && b !== null) {
+    return a.acceleratorId !== b.acceleratorId || a.totalGpus !== b.totalGpus
+  }
+  return false
+}
+
+/**
  * Form state mirrored into the URL.
  *
- * The initial value is read from `window.location.search` on mount, and every
- * change is written back with `history.replaceState` — never `pushState`, so the
- * back button leaves the calculator instead of stepping through every keystroke.
+ * The initial value is read from `window.location.search` on mount. Edits are
+ * written back with `replaceState`; navigation (see {@link isNavigation}) uses
+ * `pushState` so Back steps between the tabs the user actually visited. A
+ * `popstate` listener decodes the URL back into state — without it the history
+ * entries would exist but the page would not follow them.
  */
 export function useUrlState(): [FormState, (patch: Partial<FormState>) => void] {
   const [state, setState] = useState<FormState>(() => decodeState(currentSearch()))
   const lastWritten = useRef<string | null>(null)
+  const pendingNavigation = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     const qs = encodeState(state)
     if (lastWritten.current === qs) return
+    const navigating = pendingNavigation.current
+    pendingNavigation.current = false
     lastWritten.current = qs
     const { pathname, hash } = window.location
-    window.history.replaceState(null, '', `${pathname}${qs ? `?${qs}` : ''}${hash}`)
+    const url = `${pathname}${qs ? `?${qs}` : ''}${hash}`
+    if (navigating) window.history.pushState(null, '', url)
+    else window.history.replaceState(null, '', url)
   }, [state])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onPopState = (): void => {
+      const next = decodeState(window.location.search)
+      // Mark the incoming URL as already written, so the effect above does not
+      // immediately rewrite the entry the browser just restored.
+      lastWritten.current = encodeState(next)
+      setState(next)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
   const patch = useCallback((next: Partial<FormState>) => {
-    setState((prev) => ({ ...prev, ...next }))
+    setState((prev) => {
+      const merged = { ...prev, ...next }
+      // Setting the ref inside the updater is idempotent — StrictMode may run
+      // this twice, and both runs set the same flag to the same value.
+      if (isNavigation(prev, merged)) pendingNavigation.current = true
+      return merged
+    })
   }, [])
 
   return [state, patch]

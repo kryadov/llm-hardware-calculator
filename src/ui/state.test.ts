@@ -230,3 +230,81 @@ describe('useUrlState', () => {
     expect(window.location.search).toBe('')
   })
 })
+
+/*
+ * Back used to walk the user out of the calculator entirely.
+ *
+ * Every state change went through `replaceState` — right for edits (typing
+ * "1000" into DAU must not push four entries) but it meant jumping to the
+ * Deploy tab left no history entry at all, so the browser's Back button
+ * returned to whatever page the user arrived from.
+ */
+describe('history: edits replace, navigation pushes', () => {
+  beforeEach(() => setSearch(''))
+
+  it('editing a field replaces the entry and never pushes', () => {
+    const push = vi.spyOn(window.history, 'pushState')
+    const replace = vi.spyOn(window.history, 'replaceState')
+    const { result } = renderHook(() => useUrlState())
+
+    push.mockClear()
+    replace.mockClear()
+    act(() => result.current[1]({ dau: 4321 }))
+
+    expect(push, 'an edit must not create a history entry').not.toHaveBeenCalled()
+    expect(replace).toHaveBeenCalled()
+    push.mockRestore()
+    replace.mockRestore()
+  })
+
+  it('switching tab pushes an entry so Back can return', () => {
+    const push = vi.spyOn(window.history, 'pushState')
+    const { result } = renderHook(() => useUrlState())
+
+    push.mockClear()
+    act(() => result.current[1]({ tab: 'deploy' }))
+
+    expect(push, 'a tab switch is navigation').toHaveBeenCalledTimes(1)
+    push.mockRestore()
+  })
+
+  it('pinning a configuration pushes an entry', () => {
+    const push = vi.spyOn(window.history, 'pushState')
+    const { result } = renderHook(() => useUrlState())
+
+    push.mockClear()
+    act(() => result.current[1]({ pin: { acceleratorId: someAcceleratorId, totalGpus: 16 } }))
+
+    expect(push).toHaveBeenCalledTimes(1)
+    push.mockRestore()
+  })
+
+  it('popstate pulls the restored URL back into state', () => {
+    const { result } = renderHook(() => useUrlState())
+    expect(result.current[0].tab).toBe('explore')
+
+    act(() => {
+      window.history.replaceState(null, '', '/?tab=deploy&dau=777')
+      window.dispatchEvent(new PopStateEvent('popstate'))
+    })
+
+    expect(result.current[0].tab, 'Back must move the page, not just the URL').toBe('deploy')
+    expect(result.current[0].dau).toBe(777)
+  })
+
+  it('the state restored by Back is not immediately overwritten', () => {
+    const { result } = renderHook(() => useUrlState())
+    act(() => result.current[1]({ tab: 'deploy' }))
+
+    const replace = vi.spyOn(window.history, 'replaceState')
+    act(() => {
+      window.history.replaceState(null, '', '/?dau=555')
+      replace.mockClear()
+      window.dispatchEvent(new PopStateEvent('popstate'))
+    })
+
+    expect(result.current[0].dau).toBe(555)
+    expect(replace, 'the restored entry must be left alone').not.toHaveBeenCalled()
+    replace.mockRestore()
+  })
+})

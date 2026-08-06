@@ -15,12 +15,33 @@ import type { ReactElement } from 'react'
 
 import type { DeploymentEstimate, MoneyRange, Risk } from '../../deploy'
 import { fill, useLang } from '../i18n'
-import { EM_DASH, EN_DASH, formatCount, formatUsdPerMillion } from './format'
+import { EM_DASH, EN_DASH, formatCount, formatUsd, formatUsdPerMillion } from './format'
 
 function formatMoneyRangePerMillion(r: MoneyRange): string {
   if (r === null) return EM_DASH
   if (r.low === r.high) return formatUsdPerMillion(r.low)
   return `${formatUsdPerMillion(r.low)}${EN_DASH}${formatUsdPerMillion(r.high)}`
+}
+
+/**
+ * Absolute money as a band: `$310,000–$486,000`. Distinct from the per-token
+ * figures — this is what actually leaves the account, and the page shipped
+ * without it, which is what made a `costMode: 'buy'` user land on a screen
+ * whose largest number was $1.76.
+ */
+function formatMoneyRange(r: MoneyRange): string {
+  if (r === null) return EM_DASH
+  if (r.low === r.high) return formatUsd(r.low)
+  return `${formatUsd(r.low)}${EN_DASH}${formatUsd(r.high)}`
+}
+
+function Total({ label, value, hint }: { label: string; value: string; hint?: string }): ReactElement {
+  return (
+    <div className="rounded-lg border border-black/10 p-3 dark:border-white/10" title={hint}>
+      <div className="text-lg font-semibold tabular-nums text-[#0b0b0b] dark:text-white">{value}</div>
+      <div className="mt-0.5 text-xs font-medium text-[#52514e] dark:text-[#c3c2b7]">{label}</div>
+    </div>
+  )
 }
 
 const CARD = 'rounded-xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-[#1a1a19]'
@@ -110,6 +131,28 @@ export function DeployResults({ estimate, className }: DeployResultsProps): Reac
         </div>
       </section>
 
+      {/* ---- Absolute totals: the money that actually leaves the account -- */}
+      <section className={CARD}>
+        <h2 className={HEADING}>{t.deploy.results.totalsTitle}</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <Total
+            label={t.deploy.results.oneTime}
+            value={formatMoneyRange(e.totals.oneTimeUsd)}
+            hint={t.deploy.results.oneTimeHint}
+          />
+          <Total
+            label={t.deploy.results.monthly}
+            value={formatMoneyRange(e.totals.monthlyUsd)}
+            hint={t.deploy.results.monthlyHint}
+          />
+          <Total
+            label={fill(t.deploy.results.horizonTco, { years: String(e.totals.horizonYears) })}
+            value={formatMoneyRange(e.totals.horizonTcoUsd)}
+            hint={t.deploy.results.horizonTcoHint}
+          />
+        </div>
+      </section>
+
       {/* ---- Waterfall -------------------------------------------------- */}
       <section className={CARD}>
         <h2 className={HEADING}>{t.deploy.results.waterfallTitle}</h2>
@@ -138,6 +181,31 @@ export function DeployResults({ estimate, className }: DeployResultsProps): Reac
                   months: formatCount(Math.round(e.breakeven.breakevenMonths)),
                 })}
           </p>
+          {/*
+            A crossover past the planning horizon is a reason NOT to buy, but
+            "breaks even in 70 months" reads like a recommendation when the
+            horizon is 36. Say which side of the line it falls on.
+          */}
+          {e.breakeven.breakevenMonths !== null &&
+          e.breakeven.breakevenMonths > e.totals.horizonYears * 12 ? (
+            <p className={`mt-1 ${MUTED}`}>
+              {fill(t.deploy.results.breakevenBeyondHorizon, {
+                years: String(e.totals.horizonYears),
+              })}
+            </p>
+          ) : null}
+          {e.breakeven.buyTco !== null || e.breakeven.rentTco !== null ? (
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <Total
+                label={fill(t.deploy.results.buyOver, { years: String(e.totals.horizonYears) })}
+                value={formatMoneyRange(e.breakeven.buyTco)}
+              />
+              <Total
+                label={fill(t.deploy.results.rentOver, { years: String(e.totals.horizonYears) })}
+                value={formatMoneyRange(e.breakeven.rentTco)}
+              />
+            </div>
+          ) : null}
         </section>
       ) : null}
 

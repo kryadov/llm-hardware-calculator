@@ -568,6 +568,14 @@ function Results({
             onComputeTurnkey={() =>
               patch({
                 tab: 'deploy',
+                quant: deployment.quant,
+                pin: { acceleratorId: deployment.acceleratorId, totalGpus: deployment.totalGpus },
+              })
+            }
+            onVerify={() =>
+              patch({
+                tab: 'verify',
+                quant: deployment.quant,
                 pin: { acceleratorId: deployment.acceleratorId, totalGpus: deployment.totalGpus },
               })
             }
@@ -690,8 +698,19 @@ function Shell({
 
   const reset = (): void => {
     // The language is a reader preference rather than an input to the
-    // calculation, so it survives a reset.
-    patch({ ...DEFAULT_STATE, lang: state.lang, overrides: {}, vendors: [...DEFAULT_STATE.vendors] })
+    // calculation, so it survives a reset. So does the tab: resetting the
+    // numbers while standing on Deploy used to teleport the user back to
+    // Explore, which reads as a navigation bug rather than a reset. The pinned
+    // configuration survives too, because Verify and Deploy have nothing to
+    // show without it.
+    patch({
+      ...DEFAULT_STATE,
+      tab: state.tab,
+      pin: state.pin,
+      lang: state.lang,
+      overrides: {},
+      vendors: [...DEFAULT_STATE.vendors],
+    })
     setCopyState('idle')
   }
 

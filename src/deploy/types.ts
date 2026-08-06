@@ -151,6 +151,24 @@ export interface Risk {
   detail: string
 }
 
+/**
+ * The absolute money — what actually leaves the bank account.
+ *
+ * `$/1M tokens` answers "is this efficient"; these answer "how much do I need,
+ * and when". Both are needed: the first Deploy page shipped only the per-token
+ * delta, so a user in `costMode: 'buy'` came from a card reading $93,000 capex
+ * and landed on a page whose largest number was $1.76.
+ */
+export interface DeploymentTotals {
+  /** Everything paid before the service can serve: cards, chassis, fabric, facility build-out, spares, software setup. */
+  oneTimeUsd: MoneyRange
+  /** Everything paid every month: facility, electricity, support, replacements, staffing, software, traffic. */
+  monthlyUsd: MoneyRange
+  /** `oneTimeUsd + monthlyUsd × horizon`, less residual value. The number a budget is signed against. */
+  horizonTcoUsd: MoneyRange
+  horizonYears: number
+}
+
 export interface DeploymentEstimate {
   inputs: DeploymentInputs
   hardware: HardwareEstimate
@@ -158,6 +176,7 @@ export interface DeploymentEstimate {
   availability: AvailabilityEstimate
   ops: OpsEstimate
   software: SoftwareEstimate
+  totals: DeploymentTotals
   /** `Usd|null` from `chosen.cost`, relabeled as "page 1" for the delta headline. */
   page1UsdPerMillionTokens: number | null
   fullUsdPerMillionTokens: MoneyRange

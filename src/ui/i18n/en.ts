@@ -260,6 +260,7 @@ const en = {
     turnkeyNote:
       'Not reserved for redundancy — losing one replica can take the whole service down.',
     turnkeyButton: 'Compute full turnkey cost →',
+    verifyButton: 'Open in Verify →',
   },
 
   memoryBar: {
@@ -431,6 +432,15 @@ const en = {
     },
     results: {
       title: 'Turnkey estimate',
+      totalsTitle: 'What it costs in money',
+      oneTime: 'Up front',
+      oneTimeHint: 'Everything paid before the service can serve: cards, chassis, fabric and optics, facility build-out, spares on the shelf, and standing the software stack up.',
+      monthly: 'Per month',
+      monthlyHint: 'Facility, electricity, vendor support, card replacements, staffing, software subscriptions and traffic.',
+      horizonTco: 'Total over {years} yr',
+      horizonTcoHint: 'Up front plus every month across the planning horizon, less any residual value. This is the figure a budget gets signed against.',
+      buyOver: 'Buy, {years} yr total',
+      rentOver: 'Rent, {years} yr total',
       deltaTitle: 'What page 1 showed vs. the full cost',
       page1Label: 'Page 1 estimate',
       fullLabel: 'Full turnkey cost',
@@ -440,6 +450,8 @@ const en = {
       breakevenTitle: 'Buy vs. rent',
       breakevenMonths: 'Buying breaks even against renting in about {months} months.',
       breakevenNever: 'Renting stays cheaper across the whole horizon at today’s rates.',
+      breakevenBeyondHorizon:
+        'That is beyond your {years}-year horizon — over the period you are planning for, renting comes out cheaper.',
       breakevenUnavailable: 'No cloud rental rate on file for this accelerator — cannot compare.',
       topLineTitle: 'Biggest cost lines',
       widestRangeTitle: 'What to confirm first',

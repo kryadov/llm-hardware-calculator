@@ -185,6 +185,8 @@ export interface DeploymentCardProps {
    * hand off to (e.g. isolated component tests).
    */
   onComputeTurnkey?: () => void
+  /** Pins this configuration and opens Verify — the counterpart to the turnkey handoff. */
+  onVerify?: () => void
 }
 
 export default function DeploymentCard({
@@ -194,6 +196,7 @@ export default function DeploymentCard({
   defaultExpanded = false,
   className,
   onComputeTurnkey,
+  onVerify,
 }: DeploymentCardProps) {
   const { t, lang } = useLang()
   const [expanded, setExpanded] = useState(defaultExpanded)
@@ -300,15 +303,26 @@ export default function DeploymentCard({
       {/* ---- Turnkey handoff ------------------------------------------ */}
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-black/10 bg-black/[0.02] px-3 py-2 dark:border-white/10 dark:bg-white/[0.03]">
         <p className="text-[11px] leading-snug text-[#898781]">{t.card.turnkeyNote}</p>
-        {onComputeTurnkey ? (
-          <button
-            type="button"
-            onClick={onComputeTurnkey}
-            className="shrink-0 rounded-md border border-black/10 px-2 py-1 text-[11px] font-medium text-[#52514e] hover:bg-black/[0.03] dark:border-white/10 dark:text-[#c3c2b7] dark:hover:bg-white/[0.05]"
-          >
-            {t.card.turnkeyButton}
-          </button>
-        ) : null}
+        <div className="flex shrink-0 flex-wrap gap-2">
+          {onVerify ? (
+            <button
+              type="button"
+              onClick={onVerify}
+              className="rounded-md border border-black/10 px-2 py-1 text-[11px] font-medium text-[#52514e] hover:bg-black/[0.03] dark:border-white/10 dark:text-[#c3c2b7] dark:hover:bg-white/[0.05]"
+            >
+              {t.card.verifyButton}
+            </button>
+          ) : null}
+          {onComputeTurnkey ? (
+            <button
+              type="button"
+              onClick={onComputeTurnkey}
+              className="rounded-md border border-black/10 px-2 py-1 text-[11px] font-medium text-[#52514e] hover:bg-black/[0.03] dark:border-white/10 dark:text-[#c3c2b7] dark:hover:bg-white/[0.05]"
+            >
+              {t.card.turnkeyButton}
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {/* ---- Disclosure --------------------------------------------- */}

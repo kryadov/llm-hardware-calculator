@@ -164,6 +164,56 @@ describe('estimate() reality checks', () => {
     expect(est.facility.oneTimeFacilityUsd).toEqual({ low: 0, high: 0 })
   })
 
+  /*
+   * The Deploy page shipped showing only `$/1M tokens`. A user in costMode
+   * 'buy' came from a card reading $93,000 CAPEX and landed on a screen whose
+   * largest number was $1.76. The absolute money was computed all along and
+   * simply never surfaced.
+   */
+  it('reports absolute money, not only cents per million tokens', () => {
+    const f = fixture('deepseek-v3-0324', 'h200-sxm-141', 100)
+    const est = run(f, { facility: 'colo' })
+
+    expect(est.totals.oneTimeUsd, 'a bought fleet has an up-front cost').not.toBeNull()
+    expect(est.totals.oneTimeUsd!.low).toBeGreaterThan(10_000)
+    expect(est.totals.monthlyUsd!.low).toBeGreaterThan(0)
+    // Whatever the per-token figure is, the horizon total is real money.
+    expect(est.totals.horizonTcoUsd!.low).toBeGreaterThan(est.totals.oneTimeUsd!.low)
+    expect(est.totals.horizonYears).toBe(DEFAULT_DEPLOYMENT_INPUTS.horizonYears)
+  })
+
+  it('the horizon total equals up-front plus every month of the horizon', () => {
+    const f = fixture('deepseek-v3-0324', 'h200-sxm-141', 100)
+    for (const horizonYears of [1, 3, 5]) {
+      const est = run(f, { horizonYears })
+      const expectedLow = est.totals.oneTimeUsd!.low + est.totals.monthlyUsd!.low * horizonYears * 12
+      expect(est.totals.horizonTcoUsd!.low, `horizon ${horizonYears}y`).toBeCloseTo(expectedLow, 2)
+    }
+  })
+
+  it('a longer horizon costs more, and cloud mode buys nothing up front', () => {
+    const f = fixture('deepseek-v3-0324', 'h200-sxm-141', 100)
+    const short = run(f, { horizonYears: 1 })
+    const long = run(f, { horizonYears: 5 })
+    expect(long.totals.horizonTcoUsd!.low).toBeGreaterThan(short.totals.horizonTcoUsd!.low)
+
+    const cloud = run(f, { facility: 'cloud' })
+    expect(cloud.totals.oneTimeUsd!.high, 'cloud buys no hardware').toBeLessThan(
+      short.totals.oneTimeUsd!.low,
+    )
+    expect(cloud.totals.monthlyUsd!.low, 'cloud still bills monthly').toBeGreaterThan(0)
+  })
+
+  it('buy and rent totals are exposed so the comparison can be shown, not just its verdict', () => {
+    const f = fixture('deepseek-v3-0324', 'h200-sxm-141', 100)
+    const est = run(f, { facility: 'colo' })
+    expect(est.breakeven).not.toBeNull()
+    expect(est.breakeven!.buyTco).not.toBeNull()
+    expect(est.breakeven!.rentTco).not.toBeNull()
+    expect(est.breakeven!.buyTco!.low).toBeGreaterThan(0)
+    expect(est.breakeven!.rentTco!.low).toBeGreaterThan(0)
+  })
+
   it('breakeven is null in cloud mode and, when priced, buy capex is positive', () => {
     const f = fixture('deepseek-v3-0324', 'h200-sxm-141', 100)
     const cloud = run(f, { facility: 'cloud' })
