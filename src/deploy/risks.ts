@@ -34,11 +34,19 @@ export function collectRisks(args: {
   const { hardware, facility, availability, ops, software, model, workload, accel, inputs } = args
   const risks: Risk[] = []
 
-  if (model.license && /non-commercial|restricted|custom/i.test(model.license)) {
+  // Keyed off the documented condition itself, never off the license NAME: a
+  // vendor-named or "custom" license is not evidence of a commercial-use gate,
+  // and pattern-matching the label wrongly flagged every MIT-licensed GLM model
+  // while missing the MiniMax ones that genuinely forbid commercial use.
+  const licenseCondition = model.licenseCommercialCondition
+  if (licenseCondition) {
     risks.push({
       id: 'license',
-      severity: 'blocking',
-      detail: `${model.displayName}'s license (${model.license}) may restrict commercial use — verify against ${model.sourceUrl} before delivering to a paying customer.`,
+      severity: licenseCondition.severity,
+      detail:
+        `${model.displayName} is licensed under ${model.license ?? 'a custom license'}. ` +
+        `${licenseCondition.detail} Confirm against ` +
+        `${model.licenseSourceUrl ?? model.sourceUrl} before delivering to a paying customer.`,
     })
   }
 

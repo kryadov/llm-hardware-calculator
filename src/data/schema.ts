@@ -243,6 +243,20 @@ export const zModel = z
     sourceUrl: z.string().url(),
     verifiedAt: zIsoDate,
     license: z.string().min(1).optional(),
+    licenseCommercialCondition: z
+      .object({
+        severity: z.enum(['warning', 'blocking']),
+        detail: z.string().min(1),
+      })
+      .optional(),
+    licenseSourceUrl: z.string().url().optional(),
+    licenseVerifiedAt: zIsoDate.optional(),
+  })
+  .refine((m) => m.licenseCommercialCondition === undefined || m.licenseSourceUrl !== undefined, {
+    // Claiming a model is commercially gated is a blocking risk in the UI; it may
+    // never rest on an unsourced assertion.
+    message: 'licenseCommercialCondition requires licenseSourceUrl',
+    path: ['licenseSourceUrl'],
   })
   .refine((m) => m.activeParams <= m.totalParams, {
     message: 'activeParams must not exceed totalParams',

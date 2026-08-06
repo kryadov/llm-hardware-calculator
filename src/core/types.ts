@@ -75,13 +75,41 @@ export interface ModelSpec {
   sourceUrl: string
   verifiedAt: string
   /**
-   * Short license label (e.g. "MIT", "Apache-2.0", "Custom (commercial-use
-   * threshold)"). Optional and purely informational for the core solver —
-   * `src/deploy` surfaces it as a blocking risk when delivering to a paying
-   * customer. Verify the exact terms at `sourceUrl`'s repository before
-   * relying on this label.
+   * Short license label: "MIT", "Apache-2.0", "Modified MIT (Moonshot)".
+   * Informational only — nothing branches on this string.
    */
   license?: string
+  /**
+   * The DOCUMENTED obligation this license attaches to commercial use, with the
+   * severity that obligation actually carries. Present ⟺ such an obligation
+   * exists; absent for plain MIT and Apache-2.0.
+   *
+   * `blocking` — commercial use is NOT granted outright: it is prohibited, or
+   * conditioned on permission from the licensor. This can stop a sale.
+   * `warning` — commercial use IS granted; a duty rides along (e.g. attribution
+   * above a revenue/user threshold). Nothing stops the sale.
+   *
+   * Deliberately one field carrying its own severity, rather than a boolean plus
+   * a note that can disagree with it: flagging a model as commercially
+   * restricted without being able to say WHAT the restriction is, or at what
+   * severity, must be unrepresentable. `src/deploy/risks.ts` keys off this field
+   * alone and never inspects the `license` label.
+   *
+   * A vendor-named or "custom" license is NOT automatically restricted, and a
+   * permissive-looking one is not automatically safe. Both directions have bitten
+   * this catalog: an earlier version regex-matched the word "custom" in the label
+   * and wrongly flagged all 8 GLM models (plain MIT) while silently missing
+   * MiniMax M2.7 and M3, which genuinely forbid commercial use without written
+   * authorization. Read the LICENSE file; never infer from the name.
+   */
+  licenseCommercialCondition?: {
+    severity: 'warning' | 'blocking'
+    detail: string
+  }
+  /** Where the license was read from — the repo's LICENSE, not the model card. */
+  licenseSourceUrl?: string
+  /** ISO date the license was last checked against `licenseSourceUrl`. */
+  licenseVerifiedAt?: string
 }
 
 export interface AcceleratorSpec {

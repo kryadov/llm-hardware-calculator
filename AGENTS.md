@@ -131,6 +131,27 @@ This is the project's main discipline — do not weaken it.
 - Models carry `sourceUrl` (the upstream `config.json` the hyperparameters were read
   from) and `verifiedAt`. Layer counts, KV heads, MLA ranks and expert counts come from
   upstream, never from recollection.
+- **Licenses are per repository, never per family, and never inferred from a name.**
+  `license` is a label; `licenseCommercialCondition` is what the LICENSE file actually
+  says, with the severity it actually carries (`warning` = a duty rides along,
+  `blocking` = commercial use needs the licensor's permission). Read every repo's own
+  LICENSE and cite it in `licenseSourceUrl`.
+
+  This has bitten twice in one direction and once in the other. A family-wide
+  assignment plus a `/non-commercial|restricted|custom/i` regex over the label flagged
+  all 8 GLM models — plain MIT — as commercially restricted, while silently missing
+  MiniMax **M2.7** (`NON-COMMERCIAL LICENSE`: commercial use prohibited without written
+  authorization), MiniMax **M3** (grant is non-commercial only) and Kimi **K3** (a
+  Model-as-a-Service business over $20M/12mo needs a separate agreement with Moonshot).
+  Both families are genuinely mixed upstream: MiniMax spans Apache-2.0, plain MIT,
+  modified MIT and two non-commercial licenses; Kimi K3 is not the K2 Modified MIT.
+  `catalogs.test.ts` now fails if either family collapses to a single label.
+
+  When re-verifying, grep the license text broadly — an earlier sweep missed MiniMax
+  M2's clause because the pattern covered "monthly/yearly revenue" but the file says
+  "annual recurring revenue". The HF API `cardData.license` tag is a starting point,
+  not an answer: `other` tells you nothing, and a `modified-mit` tag has pointed at a
+  file with no modification at all.
 - Accelerator figures come from vendor datasheets. Anything vendor-claimed and not
   independently verified must carry a `note`, which the UI surfaces.
 - Efficiency coefficients (MBU/MFU) live in `coefficients.json` as data per hardware

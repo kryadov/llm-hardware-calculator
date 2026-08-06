@@ -31,7 +31,13 @@
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
+    "license": "Kimi K3 License",
+    "licenseCommercialCondition": {
+      "severity": "blocking",
+      "detail": "Operating a Model-as-a-Service business (third-party API access to inference or fine-tuning) with aggregate revenue above $20M over any consecutive 12 months requires a separate agreement with Moonshot AI before any commercial use; purely internal use is exempt. Above 100M MAU or $20M monthly revenue \"Kimi K3\" must be displayed in the UI."
+    },
+    "licenseSourceUrl": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "kimi-k2-7-code",
@@ -61,7 +67,13 @@
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
+    "license": "Modified MIT (Moonshot)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Commercial use is granted outright; above 100 million monthly active users or $20M monthly revenue you must prominently display the Kimi model name in the product UI."
+    },
+    "licenseSourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "kimi-k2-6",
@@ -91,7 +103,13 @@
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
+    "license": "Modified MIT (Moonshot)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Commercial use is granted outright; above 100 million monthly active users or $20M monthly revenue you must prominently display the Kimi model name in the product UI."
+    },
+    "licenseSourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "kimi-k2-5",
@@ -121,7 +139,13 @@
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
+    "license": "Modified MIT (Moonshot)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Commercial use is granted outright; above 100 million monthly active users or $20M monthly revenue you must prominently display the Kimi model name in the product UI."
+    },
+    "licenseSourceUrl": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "kimi-k2-thinking",
@@ -151,7 +175,13 @@
     "nativeDtype": "int4",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
+    "license": "Modified MIT (Moonshot)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Commercial use is granted outright; above 100 million monthly active users or $20M monthly revenue you must prominently display the Kimi model name in the product UI."
+    },
+    "licenseSourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "kimi-k2-instruct",
@@ -181,7 +211,13 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Moonshot Modified MIT — commercial-use revenue/MAU threshold, verify at repo)"
+    "license": "Modified MIT (Moonshot)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Commercial use is granted outright; above 100 million monthly active users or $20M monthly revenue you must prominently display the Kimi model name in the product UI."
+    },
+    "licenseSourceUrl": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-5.2",
@@ -211,7 +247,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-5.2/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-5.2/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-5.1",
@@ -241,7 +279,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-5.1/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-5.1/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-4.7-flash",
@@ -271,7 +311,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.7-Flash/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-4.7-Flash/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-4.6",
@@ -300,7 +342,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.6/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-4.6/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-4.5",
@@ -329,7 +373,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.5/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-4.5/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-4.5-air",
@@ -358,7 +404,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4.5-Air/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-4.5-Air/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-4-32b-0414",
@@ -382,7 +430,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4-32B-0414/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-4-32B-0414/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "glm-4-9b-0414",
@@ -406,7 +456,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/zai-org/GLM-4-9B-0414/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (Zhipu GLM-4 License — commercial-use conditions, verify at repo)"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/zai-org/GLM-4-9B-0414/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-v4-flash-0731",
@@ -435,7 +487,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-v4-pro",
@@ -464,7 +518,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-v4-flash",
@@ -493,7 +549,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-v3.2-exp",
@@ -523,7 +581,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-v3.1",
@@ -553,7 +613,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.1/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3.1/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-v3-0324",
@@ -583,7 +645,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3-0324/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V3-0324/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-r1",
@@ -613,7 +677,9 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-r1-distill-qwen-32b",
@@ -637,7 +703,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "deepseek-r1-distill-llama-8b",
@@ -661,7 +729,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "MIT"
+    "license": "MIT",
+    "licenseSourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3.6-27b",
@@ -685,7 +755,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.6-27B/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3.6-27B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3.6-35b-a3b",
@@ -714,7 +786,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3.5-397b-a17b",
@@ -743,7 +817,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3.5-122b-a10b",
@@ -772,7 +848,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3.5-122B-A10B/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3.5-122B-A10B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-235b-a22b",
@@ -801,7 +879,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-235B-A22B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-235B-A22B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-coder-480b-a35b-instruct",
@@ -830,7 +910,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-32b",
@@ -854,7 +936,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-32B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-32B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-30b-a3b",
@@ -883,7 +967,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-30B-A3B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-30B-A3B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-14b",
@@ -907,7 +993,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-14B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-14B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-8b",
@@ -931,7 +1019,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-8B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-8B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "qwen3-4b",
@@ -955,7 +1045,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/Qwen/Qwen3-4B/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/Qwen/Qwen3-4B/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-m3",
@@ -984,7 +1076,13 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M3/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "MiniMax Community License",
+    "licenseCommercialCondition": {
+      "severity": "blocking",
+      "detail": "Rights are granted for non-commercial purposes only. Any commercial use requires displaying \"Built with MiniMax M3\" and notifying api@minimax.io, plus separate prior written authorization from MiniMax above $20M yearly revenue."
+    },
+    "licenseSourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M3/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-m2-7",
@@ -1013,7 +1111,13 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2.7/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "MiniMax Non-Commercial License",
+    "licenseCommercialCondition": {
+      "severity": "blocking",
+      "detail": "Any commercial use is prohibited without obtaining separate prior written authorization from MiniMax. Personal, non-profit and academic use are permitted free of charge."
+    },
+    "licenseSourceUrl": "https://github.com/MiniMax-AI/MiniMax-M2.7/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-m2-5",
@@ -1042,7 +1146,13 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2.5/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "Modified MIT (MiniMax) — unverified",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "The license file could not be retrieved from either the model repo or the vendor GitHub, so its terms are unconfirmed; the model card labels it modified-mit like its siblings. Read the license before delivering to a paying customer."
+    },
+    "licenseSourceUrl": "https://github.com/MiniMax-AI/MiniMax-M2.5/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-m2-1",
@@ -1071,7 +1181,13 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2.1/blob/main/config.json",
     "verifiedAt": "2026-08-05",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "Modified MIT (MiniMax)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Any commercial product or service using the model must prominently display \"MiniMax M2.1\" in its user interface — this obligation has no revenue or user threshold."
+    },
+    "licenseSourceUrl": "https://github.com/MiniMax-AI/MiniMax-M2.1/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-m2",
@@ -1100,7 +1216,13 @@
     "nativeDtype": "fp8",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M2/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "Modified MIT (MiniMax)",
+    "licenseCommercialCondition": {
+      "severity": "warning",
+      "detail": "Commercial use is granted outright; above 100 million monthly active users or $30M annual recurring revenue you must prominently display \"MiniMax M2\" in the product UI."
+    },
+    "licenseSourceUrl": "https://github.com/MiniMax-AI/MiniMax-M2/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-m1-80k",
@@ -1131,7 +1253,9 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M1-80k/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "Apache-2.0",
+    "licenseSourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-M1-80k/blob/main/LICENSE",
+    "licenseVerifiedAt": "2026-08-06"
   },
   {
     "id": "minimax-text-01",
@@ -1162,6 +1286,8 @@
     "nativeDtype": "bf16",
     "sourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-Text-01/blob/main/config.json",
     "verifiedAt": "2026-08-04",
-    "license": "Custom (MiniMax Model License — commercial-use conditions, verify at repo)"
+    "license": "MiniMax Model License",
+    "licenseSourceUrl": "https://huggingface.co/MiniMaxAI/MiniMax-Text-01/blob/main/LICENSE-MODEL",
+    "licenseVerifiedAt": "2026-08-06"
   }
 ]
