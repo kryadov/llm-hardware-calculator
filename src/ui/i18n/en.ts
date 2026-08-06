@@ -15,8 +15,8 @@
  */
 const en = {
   header: {
-    title: 'LLM Hardware Calculator',
-    tagline: 'Size the servers for self-hosted inference of open-weights models. Data as of 2026-08-06.',
+    title: 'Inference TCO Calculator',
+    tagline: 'What self-hosting an open-weights model costs — hardware, facility, people and software. Data as of 2026-08-06.',
     tabs: {
       explore: 'Explore',
       verify: 'Verify',

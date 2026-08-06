@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages
 
+# A release is always cut from a commit that is already on `main`, so the `push`
+# trigger has deployed it seconds earlier. Triggering on `release` as well raced
+# two runs for the same commit against a single Pages deployment slot.
 on:
   push:
     branches: [main]
-  release:
-    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -12,9 +13,15 @@ permissions:
   pages: write
   id-token: write
 
+# `cancel-in-progress: false` is deliberate and is what GitHub's own Pages
+# template specifies: queue newer runs, but never cancel a deployment already in
+# flight. With `true`, a second run would cancel the first *mid-deployment*,
+# leaving the Pages API with a half-finished deployment — which showed up as
+# "Deployment cancelled" failures and, once, a deploy step that hung until its
+# ten-minute timeout while the site kept serving the previous build.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:

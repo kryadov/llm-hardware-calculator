@@ -3,7 +3,7 @@
   "private": false,
   "version": "1.4.0",
   "type": "module",
-  "description": "Interactive hardware sizing calculator for self-hosted inference of Kimi, GLM, DeepSeek, Qwen and MiniMax models",
+  "description": "Inference TCO Calculator — sizes the hardware for self-hosted Kimi, GLM, DeepSeek, Qwen and MiniMax, then prices the whole turnkey deployment behind it",
   "homepage": "https://kryadov.github.io/llm-hardware-calculator/",
   "repository": {
     "type": "git",

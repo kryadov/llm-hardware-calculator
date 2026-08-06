@@ -625,22 +625,34 @@ function Footer(): ReactElement {
       data-testid="page-footer"
       className="mt-8 border-t border-black/10 dark:border-white/10"
     >
-      <div className={`mx-auto max-w-[1500px] space-y-1 px-4 py-6 ${MUTED}`}>
-        <p className="max-w-prose">{t.footer.accuracy}</p>
-        <p className="max-w-prose">{t.footer.loadTesting}</p>
-        <p>{fill(t.footer.pricesAsOf, { date: PRICING.pricesAsOf })}</p>
-        <p className="max-w-prose">{t.footer.sources}</p>
-        <p>{t.footer.offline}</p>
-        <p>
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="underline underline-offset-2 hover:text-[#0b0b0b] dark:hover:text-white"
-          >
-            {t.footer.repo}
-          </a>
-        </p>
+      {/*
+        Two columns rather than one stack: as a single `max-w-prose` column the
+        six lines hugged the left edge and left most of a wide viewport empty.
+        Grouped by kind — what the numbers are worth on one side, where they
+        came from on the other.
+      */}
+      <div
+        className={`mx-auto grid max-w-[1500px] gap-x-10 gap-y-1 px-4 py-6 sm:grid-cols-2 ${MUTED}`}
+      >
+        <div className="space-y-1">
+          <p>{t.footer.accuracy}</p>
+          <p>{t.footer.loadTesting}</p>
+        </div>
+        <div className="space-y-1">
+          <p>{fill(t.footer.pricesAsOf, { date: PRICING.pricesAsOf })}</p>
+          <p>{t.footer.sources}</p>
+          <p>{t.footer.offline}</p>
+          <p>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline underline-offset-2 hover:text-[#0b0b0b] dark:hover:text-white"
+            >
+              {t.footer.repo}
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   )

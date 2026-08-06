@@ -5,11 +5,18 @@ this file is the single source of truth.
 
 ## What this is
 
-A static, client-side calculator that sizes hardware for self-hosted LLM inference:
-given a model, a workload profile, a user count and an SLA, it ranks concrete
-deployments (accelerator, GPU count, parallelism, interconnect, `$/1M tokens`, and
-the `vllm serve` line) and reports every rejected candidate with a machine-checked
-reason.
+**Inference TCO Calculator** — a static, client-side tool that costs self-hosted LLM
+inference end to end. Given a model, a workload profile, a user count and an SLA it
+ranks concrete deployments (accelerator, GPU count, parallelism, interconnect,
+`$/1M tokens`, and the `vllm serve` line), reports every rejected candidate with a
+machine-checked reason, and then prices the chosen one as a turnkey delivery: chassis,
+fabric, racks and power, redundancy, facility, staffing, support and software.
+
+The product was called *LLM Hardware Calculator* through v1.3. The repository, the
+package `name` and the GitHub Pages URL deliberately still carry the old slug: the URL
+is the state (see below), so every shared calculation would break if it moved. Only the
+display name changed. Dated documents under `docs/superpowers/` keep the original name
+on purpose — they record what was built at the time.
 
 No backend, no telemetry, no persistence. It builds to static files and deploys to
 GitHub Pages.

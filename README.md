@@ -1,11 +1,15 @@
-# LLM Hardware Calculator
+# Inference TCO Calculator
 
-Work out what hardware you need to self-host Kimi, GLM, DeepSeek, Qwen or MiniMax — for a
-given model, a given number of users, and a given latency target.
+Work out what it costs to self-host Kimi, GLM, DeepSeek, Qwen or MiniMax — starting from
+the hardware, and going all the way to the invoice: racks, power, redundancy, staffing,
+vendor support and the software stack around the model.
 
 ### ▶ **Live: https://kryadov.github.io/llm-hardware-calculator/**
 
 No sign-up, no backend, no telemetry. The whole calculator runs in your browser.
+
+> Formerly *LLM Hardware Calculator*. The name changed when the tool stopped stopping at
+> GPU count; the URL did not, so every link ever shared still resolves.
 
 ---
 
